@@ -1,0 +1,1088 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ICAP Study Deck</title>
+<meta name="description" content="Flashcards and a multiple choice quiz for the IAAPA Certified Attractions Professional (ICAP) exam, organized by the five exam domains and tagged to the ICAP syllabus.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2314161F'/%3E%3Ccircle cx='16' cy='16' r='9' fill='%23F2B705'/%3E%3Ctext x='16' y='21' font-family='Arial' font-weight='700' font-size='14' text-anchor='middle' fill='%2314161F'%3EI%3C/text%3E%3C/svg%3E">
+<style>
+/* page reset: this file is standalone, so it carries the base rules the artifact viewer would otherwise add */
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html,body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Big+Shoulders+Display:wght@700;800&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: ride-entrance signage. One big condensed title, a height-gauge progress bar, five domain bullets as filters, then one sign-style card or question panel at a time. */
+:root{
+  --bg:#ECEDF2; --surface:#FFFFFF; --ink:#14161F; --muted:#565B6B; --line:#C8CBD6;
+  --btn-bg:#14161F; --btn-fg:#FFFFFF;
+  --good:#0B7A3B; --good-bg:#DDF3E4; --bad:#B3261E; --bad-bg:#FBE3E1;
+  --c-ops:#C8322B; --c-rev:#0B7A45; --c-safe:#F2B705; --c-mkt:#B0237C; --c-hr:#1F55C7;
+  --on-safe:#14161F;
+  --f-display:"Big Shoulders Display","Arial Narrow",Arial,sans-serif;
+  --f-body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#101219; --surface:#191C26; --ink:#EDEFF5; --muted:#9AA0B2; --line:#2C3040;
+    --btn-bg:#EDEFF5; --btn-fg:#101219;
+    --good:#4CC57A; --good-bg:#12301F; --bad:#FF8A80; --bad-bg:#3A1815;
+    --c-ops:#E0463E; --c-rev:#1E9A5C; --c-safe:#F5C518; --c-mkt:#C23A91; --c-hr:#4A78E6;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#101219; --surface:#191C26; --ink:#EDEFF5; --muted:#9AA0B2; --line:#2C3040;
+  --btn-bg:#EDEFF5; --btn-fg:#101219;
+  --good:#4CC57A; --good-bg:#12301F; --bad:#FF8A80; --bad-bg:#3A1815;
+  --c-ops:#E0463E; --c-rev:#1E9A5C; --c-safe:#F5C518; --c-mkt:#C23A91; --c-hr:#4A78E6;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{
+  background:var(--bg); color:var(--ink); font-family:var(--f-body); font-size:16px; line-height:1.5;
+  padding-block:22px 48px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+}
+.wrap{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:20px;min-width:0}
+button{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+
+#main{display:flex;flex-direction:column;gap:14px;min-width:0}
+.top{display:flex;flex-direction:column;gap:6px}
+.kicker{margin:0;font:500 12px var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+h1{margin:0;font:800 clamp(54px,15vw,88px)/.9 var(--f-display);text-transform:uppercase;letter-spacing:.01em;text-wrap:balance}
+.sub{margin:4px 0 0;color:var(--muted);max-width:52ch}
+/* height gauge: ten segments like a ride height marker */
+.prog{position:relative;height:16px;background:var(--line);border-radius:2px;overflow:hidden;margin-top:10px}
+.prog i{display:block;height:100%;width:0;background:var(--c-rev);transition:width .3s}
+.prog::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0,transparent calc(10% - 3px),var(--bg) calc(10% - 3px),var(--bg) 10%)}
+.progtxt{margin:0;font:500 12px var(--f-mono);letter-spacing:.06em;color:var(--muted);font-variant-numeric:tabular-nums}
+
+.tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:2px solid var(--ink);border-radius:6px;overflow:hidden}
+.tab{border:0;background:var(--surface);padding:12px 6px;font:700 21px var(--f-display);text-transform:uppercase;letter-spacing:.06em;cursor:pointer;min-height:48px}
+.tab+.tab{border-left:2px solid var(--ink)}
+.tab[aria-pressed="true"]{background:var(--btn-bg);color:var(--btn-fg)}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips[hidden]{display:none}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:5px 12px 5px 6px;min-height:40px;border:2px solid var(--line);background:transparent;border-radius:999px;cursor:pointer;font-weight:700;font-size:15px}
+.chip.all{padding-left:14px}
+.chip[aria-pressed="true"]{border-color:var(--ink);background:var(--surface)}
+.cnt{font:500 12px var(--f-mono);color:var(--muted)}
+
+.bullet{--col:var(--ink);flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--col);color:var(--on,#fff);font:800 18px/1 var(--f-display)}
+[data-c=ops]{--col:var(--c-ops)} [data-c=rev]{--col:var(--c-rev)} [data-c=mkt]{--col:var(--c-mkt)} [data-c=hr]{--col:var(--c-hr)}
+[data-c=safe]{--col:var(--c-safe);--on:var(--on-safe)}
+
+.banner{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;border:2px dashed var(--ink);border-radius:6px;font-weight:700}
+
+/* flashcard */
+.scene{perspective:1400px}
+.card{display:block;width:100%;padding:0;border:0;background:none;text-align:left;cursor:pointer}
+.inner{display:grid;transition:transform .5s;transform-style:preserve-3d}
+.inner.flipped{transform:rotateY(180deg)}
+.face{grid-area:1/1;display:flex;flex-direction:column;min-height:320px;background:var(--surface);border:2px solid var(--ink);border-radius:6px;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.face.back{transform:rotateY(180deg)}
+.band{display:flex;align-items:center;gap:10px;padding:9px 14px;background:var(--col);color:var(--on,#fff);font:700 19px var(--f-display);text-transform:uppercase;letter-spacing:.07em}
+.band .bullet{background:var(--on,#fff);color:var(--col);width:26px;height:26px;font-size:16px}
+.fbody{flex:1;display:flex;flex-direction:column;justify-content:center;gap:12px;padding:20px 18px}
+.q{font-size:clamp(20px,5vw,25px);line-height:1.3;font-weight:700;text-wrap:balance}
+.ans{font:800 clamp(30px,8.5vw,42px)/1.04 var(--f-display);text-wrap:balance}
+.note{color:var(--muted);margin:0}
+.hint{padding:0 18px 14px;font:500 12px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+
+.meta{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:4px 10px;font:500 13px var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.tag-known{color:var(--good);font-weight:500}
+.row{display:flex;flex-wrap:wrap;gap:10px}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{min-height:48px;padding:10px 16px;border:2px solid var(--ink);border-radius:6px;background:var(--surface);cursor:pointer;font-weight:700}
+.btn.primary{background:var(--btn-bg);color:var(--btn-fg)}
+.btn.small{min-height:40px;padding:6px 12px;font-size:14px}
+.btn[aria-pressed="true"]{background:var(--btn-bg);color:var(--btn-fg)}
+.btn.ghost{border-color:var(--line);color:var(--muted)}
+.btn:disabled{opacity:.5;cursor:default}
+.empty{padding:28px 18px;border:2px dashed var(--line);border-radius:6px;display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.empty p{margin:0}
+
+/* quiz */
+.panel{background:var(--surface);border:2px solid var(--ink);border-radius:6px;overflow:hidden}
+.pbody{padding:18px;display:flex;flex-direction:column;gap:16px}
+.panel h2{margin:0;font:800 36px/1 var(--f-display);text-transform:uppercase;letter-spacing:.02em}
+.panel p{margin:0}
+.seg{display:flex;flex-wrap:wrap;gap:8px}
+.panel{scroll-margin-top:12px}
+.btn{scroll-margin-bottom:16px}
+.quizzing .sub,.quizzing .prog,.quizzing .progtxt,.quizzing .chips,.quizzing .subrow{display:none}
+.qbar{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.qbar i{display:block;height:100%;background:var(--ink)}
+.opts{display:grid;gap:10px}
+.setlab{margin:0;font:500 12px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.hintline{color:var(--muted);font-size:14px}
+.opt{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;padding:12px 14px;min-height:52px;border:2px solid var(--line);border-radius:6px;background:var(--surface);cursor:pointer;font-weight:700}
+.opt:hover:not(:disabled){border-color:var(--ink)}
+.opt .k{flex:none;font:500 13px var(--f-mono);padding-top:3px;color:var(--muted)}
+.opt:disabled{cursor:default;color:inherit}
+.opt.correct{border-color:var(--good);background:var(--good-bg)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-bg)}
+.opt.dim{opacity:.55}
+.fb{padding:12px 14px;border-radius:6px;display:flex;flex-direction:column;gap:4px}
+.fb.ok{background:var(--good-bg);color:var(--good)}
+.fb.no{background:var(--bad-bg);color:var(--bad)}
+.fb strong{font-size:17px}
+.fb span{color:var(--ink)}
+.score{font:800 clamp(64px,20vw,104px)/.9 var(--f-display);font-variant-numeric:tabular-nums}
+.score small{font-size:.4em;color:var(--muted)}
+.breakdown{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.breakdown li{display:flex;align-items:center;gap:10px}
+.breakdown .nm{flex:1;min-width:0}
+.breakdown .sc{font:500 14px var(--f-mono);font-variant-numeric:tabular-nums}
+.missed{display:flex;flex-direction:column;gap:10px;margin:0;padding:0;list-style:none}
+.missed li{padding:10px 12px;border:2px solid var(--line);border-radius:6px;display:flex;flex-direction:column;gap:2px}
+.missed .ca{font-weight:700}
+h3{margin:0;font:700 22px var(--f-display);text-transform:uppercase;letter-spacing:.06em}
+
+footer{margin-top:6px;padding-top:16px;border-top:2px solid var(--line);color:var(--muted);font-size:14px}
+footer p{margin:0 0 8px}
+footer a{color:var(--ink);font-weight:700}
+.subrow{display:flex;flex-direction:column;gap:6px}
+.subrow[hidden]{display:none}
+select{font:inherit;min-height:44px;padding:8px 10px;border:2px solid var(--ink);border-radius:6px;background:var(--surface);color:var(--ink);max-width:100%;width:100%}
+.topic{font:500 12px/1.4 var(--f-mono);letter-spacing:.03em;color:var(--muted)}
+details{border-top:1px solid var(--line);padding-block:4px}
+details>summary{cursor:pointer;font-weight:700;min-height:44px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+details>summary>span:first-child{min-width:0}
+.topics{margin:4px 0 12px;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px}
+.topics li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px;align-items:baseline}
+.topics .lt{font:500 13px var(--f-mono);color:var(--muted)}
+.topics .ct{font:500 12px var(--f-mono);color:var(--muted);white-space:nowrap}
+.missed .topic{margin-bottom:2px}
+/* exam info tab */
+.facts{margin:0;display:flex;flex-direction:column}
+.fact{display:grid;gap:2px;padding-block:10px;border-top:1px solid var(--line)}
+.fact:first-child{border-top:0;padding-top:0}
+.fact dt{font:500 12px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.fact dd{margin:0}
+.subs,.links{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:4px}
+#main a{color:var(--ink);font-weight:700}
+.dom-actions{display:flex}
+@media (prefers-reduced-motion:reduce){.inner,.prog i{transition:none}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <p class="kicker">IAAPA Certified Attractions Professional</p>
+    <h1>ICAP Study Deck</h1>
+    <p class="sub" id="sub"></p>
+    <div class="prog" aria-hidden="true"><i id="progbar"></i></div>
+    <p class="progtxt" id="progtxt"></p>
+  </header>
+  <nav class="tabs" id="tabs" aria-label="Study mode"></nav>
+  <div class="chips" id="chips" role="group" aria-label="Domain"></div>
+  <div class="subrow" id="subrow" hidden></div>
+  <main id="main"></main>
+  <footer>
+    <p>These cards are original practice material, not questions from the exam. IAAPA keeps ICAP exam content confidential. The Exam info tab summarizes the format, domains and policies from IAAPA's own pages.</p>
+    <p>Some cards use US rules as examples (the ADA, FDA food temperatures, US overtime), and laws differ by country. Check this deck against the ICAP Examination Syllabus and Study Guide on <a href="https://iaapa.org/education/certification/how-to-apply">IAAPA's certification page</a>. This deck covers ICAP, not the ICAE executive exam.</p>
+  </footer>
+</div>
+<script>
+const CARDS = [];
+const DKEY = { 1: "ops", 2: "rev", 3: "safe", 4: "mkt", 5: "hr" };
+const K = (c, q, a, d, n, t) => { const p = t.split("."); CARDS.push({ c: DKEY[p[0]], q: q, a: a, d: d, n: n, t: t, dn: +p[0], sn: +p[1], l: p[2] || "" }); };
+
+/* ---- Domain 1: Facility Operations, Entertainment and Guest Relations ---- */
+K("ops","A ride carries 24 guests per cycle and runs 30 cycles an hour. What is its theoretical hourly capacity?","720 guests",["360 guests","54 guests","1,440 guests"],"24 guests x 30 cycles = 720. Real throughput is lower because of loading time, empty seats and stoppages.","2.1.d");
+K("ops","Why is a ride's actual throughput usually below its theoretical capacity?","Loading time, empty seats and stoppages reduce it",["Manufacturers overstate capacity by law","Guests ride more slowly in cool weather","Capacity only counts adult riders"],"Operators track both numbers. The gap shows where line management or staffing can improve.","2.1.d");
+K("ops","What does ride availability, or uptime, measure?","The share of scheduled operating time that a ride is open and running",["The number of guests who ride at least once","The cost to run the ride each hour","The share of guests who rate the ride highly"],"A ride scheduled for 10 hours that runs for 9.5 has 95 percent availability.","1.0");
+K("ops","Which queue technique shortens the perceived wait without changing the actual wait?","Giving guests something to watch, read or do while in line",["Closing the queue early","Removing all signage","Asking guests to stand silently"],"Occupied time feels shorter than unoccupied time.","1.3.d");
+K("ops","What does a virtual queue let a guest do?","Reserve a return time instead of standing in line",["Skip the ride but keep the ticket price","Buy a second admission at a discount","Ride without a height check"],"The guest uses the saved time elsewhere in the park, which can also raise in-park spending.","2.4.a");
+K("ops","'Front of house' (FOH) refers to which areas and roles?","Guest-facing areas and the staff who work in them",["Offices, kitchens and maintenance shops","Only the main entrance gates","Only the ticket windows"],"Back of house (BOH) covers areas guests do not see, such as kitchens, warehouses, offices and maintenance shops.","2.2.e");
+K("ops","Many attractions post wait times slightly longer than the real wait. What is the usual reason?","Guests who wait less than they were told tend to feel more satisfied",["Regulators require a margin of error","It raises the ride's capacity","It lowers insurance premiums"],"Under-promising and over-delivering shapes the experience. Estimates still need to be reasonably honest.","2.1.d");
+K("ops","A ride closes after guests have waited 45 minutes. Which first response best fits good service recovery?","Acknowledge the problem, apologize and offer a fair remedy such as a return pass",["Explain the maintenance process in detail","Tell guests closures are normal and to check the app","Ask guests to wait in place until a manager arrives"],"Recovery works best when the remedy is quick, sincere and within the front-line team member's authority.","1.6.f");
+K("ops","What does empowering front-line team members to resolve complaints on the spot mainly improve?","The speed and quality of service recovery",["The ride availability rate","Per cap spending on food","The size of the seasonal workforce"],"Sending every complaint up a chain of command delays the fix and frustrates guests.","1.6.e");
+K("ops","Under the US Americans with Disabilities Act, what may staff ask when a guest arrives with a dog?","Whether it is required because of a disability, and what task it has been trained to do",["For the dog's certification papers","For the guest's medical records","What the guest's disability is"],"Staff may not ask for documentation, demand a demonstration or ask about the disability. Rules differ outside the US.","1.7.c");
+K("ops","Under the ADA, which animals are recognized as service animals?","Dogs, plus miniature horses in limited cases",["Any animal a guest says is trained","Dogs and cats","Emotional support animals of any species"],"Emotional support animals are not service animals under the ADA. Local rules may add other requirements.","1.7.c");
+K("ops","Which guest document lists which rides a guest with a disability can use and how to board them?","An accessibility guide",["A rider conduct code","A park map legend","An emergency action plan"],"Many parks publish guides covering mobility, vision, hearing, cognitive and sensory needs.","1.7.a");
+K("ops","What is a sensory-friendly event or hour?","One with reduced sound, lighting and crowd levels for guests sensitive to sensory input",["A tasting event for new menu items","An event with extra loud shows","A fireworks display"],"These sessions often help guests with autism or sensory processing needs.","1.7.a");
+K("ops","Who calls the cues during a live show?","The stage manager",["The house manager","The producer","The ticket supervisor"],"The house manager handles the audience side: seating, ushers and guest safety in the venue.","1.3.b");
+K("ops","Why do parks stagger show times and parades?","To spread guests across the park and reduce crowding",["To keep performer costs lower","To discourage guests from riding","Because regulations require two-hour gaps"],"Staggering also gives guests more chances to see a show without long waits.","1.1.h");
+K("ops","What is the main value of a written, posted weather policy?","Staff act consistently and guests know what to expect, such as closures and rain checks",["It lets the park avoid all refunds","It replaces daily ride inspections","It removes the need to monitor forecasts"],"Weather policies work best when they are clear, specific and shared with guests in advance.","1.2.c");
+K("ops","What is an after-action review for a special event?","A structured debrief on what worked and what to change next time",["A financial audit by the tax authority","A guest survey sent to the press","A final inspection before gates open"],"Capture lessons in writing so the next event team can use them.","1.3.a");
+K("ops","What is a costume character handler's main role?","Guiding and protecting the performer, and timing breaks and guest interactions",["Selling merchandise to guests","Operating nearby ride controls","Judging the performer's acting"],"Performers have limited vision and hearing inside costumes, so handlers manage crowds and keep the performer safe.","1.3.c");
+K("ops","Why do costume performers need scheduled breaks?","Heat, weight and limited vision raise the risk of heat illness and fatigue",["Guests prefer seeing characters less often","Costumes must be cleaned every hour","Union rules require photos at each break"],"Cooling vests, water and rest areas are standard parts of character programs.","1.3.c");
+K("ops","In zoo and aquarium education, what does interpretation mean?","Helping guests connect with and understand the subject through talks, signs and programs",["Translating signs into other languages only","Writing animal health reports","Setting admission prices for school groups"],"Good interpretation makes a topic personal and memorable, not just factual.","1.4.a");
+K("ops","Which US organization accredits zoos and aquariums?","The Association of Zoos and Aquariums (AZA)",["The American Society for Testing and Materials","The Occupational Safety and Health Administration","The National Fire Protection Association"],"Accreditation reviews animal care, safety, finances and education programs.","1.0");
+K("ops","Which change most directly cuts the energy used by a nightly show?","Switching stage lighting to LED fixtures",["Adding a second set of lights as backup","Running the show twice as often","Using brighter incandescent bulbs"],"LEDs use far less power and give off less heat, which also lowers cooling loads.","1.0");
+K("ops","What does waste diversion mean?","Keeping waste out of landfill through recycling, composting and reuse",["Moving waste to a different landfill","Burning waste on site","Charging guests for trash bags"],"Diversion rate is the share of waste kept out of landfill.","3.6.b");
+K("ops","In a Net Promoter Score survey, which responses count as detractors?","Scores of 0 to 6",["Scores of 0 to 3","Scores of 0 to 8","Scores of 4 to 7"],"Promoters score 9 or 10, and passives score 7 or 8. NPS = percent promoters minus percent detractors.","1.1.i");
+K("ops","What does capacity utilization show?","The share of available capacity that is actually used",["The number of seats on a ride","The cost of each ride cycle","The share of guests who return"],"A show that seats 1,000 and averages 700 guests runs at 70 percent utilization.","1.1.h");
+K("ops","What is a shoulder season?","The period between peak and off-peak, with moderate attendance",["The final week before closing for winter","A season with no events","The busiest weeks of the year"],"Parks often use shoulder seasons for special events and promotions.","4.1.c");
+K("ops","Why should rider height, health and behavior restrictions be visible before guests join the queue?","So guests can decide whether they can ride before waiting in line",["So staff can skip verbal safety checks","So the park limits its liability to zero","So the restrictions apply only to adults"],"Post restrictions at the entrance and in guides, not only at the load platform.","3.6.a");
+K("ops","Good wayfinding signs share which trait?","A consistent design that is easy to read from a distance, with clear icons",["Small text with detailed instructions","A different style on each sign","Placement only at the main gate"],"Guests make quick decisions while walking, so signs need to work at a glance.","1.2.c");
+
+K("ops","A guest with a mobility limitation asks how to board a ride, and the team member is unsure. Who should the guest be connected with?","Guest Services, which holds the accommodation resources",["First Aid","The ride's maintenance crew","The ticket window"],"Guest Services is the usual first point of contact for accommodation questions. Staff should not guess about access.","1.7.a");
+K("ops","Which items belong in a service recovery toolkit for front-line staff?","Meal or snack vouchers, discounted return tickets and small souvenirs",["Season pass refund forms and ride maintenance logs","Budget reports and payroll sheets","Press releases and sponsor contracts"],"Simple tools let front-line staff fix a bad moment right away, without sending every complaint upward.","1.6.f");
+K("ops","How can costume characters help the show experience?","They fill gaps between show times and add to the story",["They replace ride safety announcements","They operate ride controls","They handle cash at retail locations"],"Characters can entertain waiting crowds and create photo moments. A handler still keeps them safe.","1.3.c");
+K("ops","A show is delayed by weather. What should the team tell guests?","The reason, the expected new time and their options",["Nothing until the show is ready","Only that the show is cancelled","A promotion for next month's event"],"Clear signs and announcements about delays and changes cut frustration and repeated questions.","1.2.c");
+K("ops","Why should staff reply to guests from official company social accounts, not personal ones?","Messages then represent the brand and can be monitored",["Personal accounts cannot send messages","It makes replies faster","It lets staff use casual spelling"],"Anything sent on a company account, even privately, reflects the company's image and standards.","1.6.d");
+
+/* ---- Domain 2: Revenue Operations and Financial Management ---- */
+K("rev","A park earns $600,000 in food and beverage sales from 20,000 guests. What is its F&B per cap?","$30",["$3","$300","$12"],"Per cap = revenue divided by attendance. Parks track it by category, such as admission, food and merchandise.","2.6.a");
+K("rev","What is capture rate?","The percentage of guests who make a purchase in a category or location",["The percentage of tickets sold online","The cost of goods divided by sales","The number of guests per hour"],"A restaurant with a 40 percent capture rate sells to 4 of every 10 park guests.","2.6.a");
+K("rev","How is gross margin calculated?","(Revenue minus cost of goods sold) divided by revenue",["Revenue divided by attendance","Fixed costs divided by revenue","Net profit divided by assets"],"If a drink sells for $4.00 and costs $1.00 to make, the gross margin is 75 percent.","2.1.a");
+K("rev","Which of these is a variable cost?","Ingredients for the food stands",["Annual property insurance","A manager's salary","A loan payment on a new coaster"],"Variable costs rise and fall with volume. Fixed costs stay the same whether 100 or 10,000 guests visit.","2.8.b");
+K("rev","How do you calculate a break-even point in units?","Fixed costs divided by contribution margin per unit",["Revenue divided by variable costs","Total costs divided by attendance","Profit divided by price"],"Contribution margin is the price minus the variable cost of one unit.","2.8.a");
+K("rev","Which item belongs in a capital budget?","A new roller coaster",["Seasonal staff wages","Monthly utility bills","Cleaning supplies"],"The operating budget covers day-to-day revenue and expenses for the year. Capital budgets cover long-lived assets.","2.9.b");
+K("rev","How is return on investment (ROI) calculated?","Net gain from the investment divided by its cost",["Annual revenue divided by attendance","Fixed costs divided by contribution margin","Operating income divided by days open"],"A project that costs $1 million and nets $200,000 has a 20 percent ROI.","2.9.a");
+K("rev","What does the payback period tell you?","How long it takes to recover the initial investment from the project's returns",["How long a ride can run each day","How long a loan lasts","How much profit a ride earns in its first month"],"Shorter paybacks mean less risk, but the measure ignores what happens afterward.","2.9.a");
+K("rev","What does depreciation do?","Spreads the cost of an asset over its useful life",["Raises the value of an asset each year","Records cash paid to suppliers","Cancels fixed costs after ten years"],"A ride that lasts 20 years is expensed gradually, not all in year one.","2.0");
+K("rev","What is dynamic pricing, also called yield management?","Adjusting prices by date, demand and inventory",["Setting one price for the whole year","Giving every guest a free upgrade","Pricing by guest age only"],"Weekend and holiday tickets cost more than quiet weekdays at many parks.","4.7.d");
+K("rev","Why do parks sell season passes?","They bring in cash early, encourage repeat visits and increase in-park spending",["They lower the cost of building rides","They replace the need for marketing","They guarantee no weather closures"],"Pass holders also give the park a base of repeat guests to market to.","2.4.b");
+K("rev","Which pricing practice best encourages guests to buy early?","Lower prices for tickets bought online in advance",["Raising prices for online sales","Selling only at the gate","Using the same price all year"],"Advance sales give the park cash and attendance forecasts earlier.","4.7.d");
+K("rev","What does inventory shrink mean?","Loss of stock from theft, damage, spoilage or error",["A planned price cut","Stock moved to a second warehouse","Seasonal changes in stock"],"Regular counts and tight controls reduce shrink.","2.1.a");
+K("rev","What does FIFO mean in stock handling?","First in, first out: use the oldest stock first",["Fixed inventory, fixed orders","Final inspection, final output","Fresh items, frozen only"],"It matters most for food, where older items spoil first.","2.3.c");
+K("rev","In menu engineering, what is an item called that is popular but low in margin?","A plowhorse",["A star","A puzzle","A dog"],"Stars are popular and profitable. Puzzles are profitable but unpopular. Dogs are neither.","2.2.a");
+K("rev","How is food cost percentage calculated?","Cost of food used divided by food sales",["Food sales divided by attendance","Labor cost divided by food sales","Menu price divided by portion size"],"If a plate sells for $10 and the food on it costs $3, the food cost is 30 percent.","2.2.d");
+K("rev","Why do group sales contracts usually require a deposit?","To secure the date and protect against cancellations",["To pay for employee training","To replace the final payment","To remove the need for a contract"],"Deposits and clear cancellation terms protect both parties.","2.4.b");
+K("rev","What is a banquet event order (BEO)?","A document spelling out an event's menu, timing, setup and charges",["A guest satisfaction survey","A food safety inspection form","A seasonal hiring plan"],"Kitchen, service and sales teams all work from the same BEO.","2.5.a");
+K("rev","What does 'will call' mean in ticketing?","Pickup of pre-purchased tickets at a designated window",["A ticket sold only by phone","A refund request line","A discounted ticket"],"Staff check ID or a confirmation number before handing over tickets.","2.4.d");
+K("rev","Which cash-handling control best reduces theft?","Counting each drawer at shift start and end with two people",["Letting one employee manage the safe alone","Leaving drawers unlocked during breaks","Counting drawers once a week"],"Dual control and documented counts create a trail.","2.10.a");
+K("rev","Why test a new product at one location before a full rollout?","It limits cost and risk while you learn from real guests",["It guarantees success","It avoids the need for a budget","It speeds up the permit process"],"This is a pilot test, a common step in in-house product development.","4.7.a");
+K("rev","What is variance analysis?","Comparing actual results to the budget and explaining the differences",["Counting guests at each gate","Rating employees against each other","Listing all fixed costs"],"A favorable or unfavorable variance prompts a closer look at its cause.","2.7.a");
+K("rev","What does EBITDA stand for?","Earnings before interest, taxes, depreciation and amortization",["Expenses before income, taxes, debt and assets","Equity base in total debt and assets","Earnings by income type, date and asset"],"It is a common way to compare operating performance.","2.0");
+K("rev","Why place merchandise shops near ride exits?","Guests are excited and already walking past, which supports impulse purchases",["Exits are always the cheapest space","Guests must pass them by law","Shops there never need staff"],"Placement is a basic retail tool for raising sales per guest.","2.3.a");
+K("rev","Offering a larger drink size at the register is an example of what?","Upselling",["Cross-selling","Price matching","Discounting"],"Cross-selling offers a different item, such as a snack with the drink.","2.1.c");
+
+K("rev","What is suggestive selling?","Anticipating a guest's needs and offering an add-on or upgrade as you close the sale",["Matching a competitor's lower price","Delaying the sale until the guest asks","Offering only the cheapest option"],"Asking 'Would you like to make that a combo?' is a typical example.","2.1.c");
+K("rev","What are the two main kinds of games at a family entertainment center?","Arcade games and redemption games",["Simulation and action games","Single-player and multiplayer games","Skill and chance games"],"Redemption games pay out tickets that guests trade for prizes. Place both types to keep guests playing.","2.3.f");
+K("rev","Why should a games counter avoid trading prizes back for cash?","It turns prizes into a cash-out, which hurts margins and cash control",["It makes prizes cheaper to stock","It speeds up the line","It is required by ride standards"],"Good practice includes varied prizes, point accumulation toward bigger rewards and exclusive items.","2.3.g");
+K("rev","Where should stock for game prizes be kept?","In a secure place that allows quick restocking",["Only at an offsite warehouse","In the guest queue","Wherever space is free"],"Games that run out of prizes lose sales and guest goodwill.","2.3.c");
+K("rev","How should a manager build a schedule for a special event that raises demand?","Use forecast attendance, cover peak hours and plan cross-trained backups",["Reuse a normal day's schedule","Schedule by seniority only","Add staff after the crowds arrive"],"Plan front of house and back of house separately for peak and non-peak periods.","2.2.e");
+K("rev","Which approach best encourages repeat visits?","Bundles, group and student discounts, and advance multi-park tickets",["A steep surcharge in peak periods","Higher prices for returning guests","Removing all discounts"],"Memberships, annual passes and group programs build repeat business.","2.4.b");
+
+/* ---- Domain 3: Safety and Security ---- */
+K("safe","Which control sits at the top of the hierarchy of controls, as the most effective?","Eliminating the hazard",["Wearing personal protective equipment","Posting warning signs","Retraining staff"],"The order is elimination, substitution, engineering controls, administrative controls, then PPE.","3.5.c");
+K("safe","How is risk commonly rated in a risk matrix?","By likelihood combined with severity",["By cost combined with distance","By weather combined with time of day","By age combined with experience"],"High-likelihood, high-severity hazards get action first.","3.1.b");
+K("safe","What is a near miss, and why report it?","An incident that caused no harm but reveals a hazard to fix",["A minor injury that is not worth recording","A guest complaint about wait times","A late delivery from a vendor"],"Near misses are free lessons. Reporting them lets teams fix problems before someone is hurt.","3.5.a");
+K("safe","At an emergency scene, what comes before treating an injured guest?","Check that the scene is safe for you and others",["Move the guest to a new location","Call the guest's family","Ask bystanders for photos"],"A rescuer who becomes a second casualty cannot help anyone.","3.3.d");
+K("safe","Which are the four phases of emergency management?","Mitigation, preparedness, response and recovery",["Detection, deterrence, defense and documentation","Planning, budgeting, hiring and training","Alarm, evacuation, shelter and return"],"Emergency planning is continual. Each event feeds lessons back into mitigation and preparedness.","3.2.a");
+K("safe","What does the Incident Command System (ICS) provide?","Standard roles and a clear chain of command for managing an incident",["A list of approved suppliers","A guest refund process","A daily ride checklist"],"It lets internal teams and outside responders such as police and fire work together.","3.2.d");
+K("safe","Why run emergency drills instead of only writing a plan?","Practice reveals gaps and builds quick, correct responses",["Drills replace plan reviews","Drills are required only for new staff","Drills prove no incidents will happen"],"Review the plan after every drill and every real event.","3.2.a");
+K("safe","What is the standard rate for chest compressions in adult CPR?","100 to 120 per minute",["40 to 60 per minute","60 to 80 per minute","140 to 160 per minute"],"Push hard and fast in the center of the chest, and let the chest rise fully between compressions.","3.3.d");
+K("safe","What does an automated external defibrillator (AED) do?","Analyzes the heart rhythm and delivers a shock only if one is needed",["Measures blood pressure","Restarts any stopped heart on its own","Gives the person oxygen"],"AEDs give spoken instructions. Early CPR and early defibrillation give the best chance of survival.","3.3.d");
+K("safe","Which sign points to heat stroke, a medical emergency?","Confusion with hot skin and a very high body temperature",["Mild thirst and light sweating","A slight headache after a long walk","Cold, clammy skin with shivering"],"Call emergency services and begin cooling the person right away.","3.3.d");
+K("safe","What is the purpose of lockout/tagout?","Keeping equipment from starting while it is being serviced",["Locking guest areas at night","Tracking spare keys","Tagging lost property"],"Each worker applies a personal lock, and only that worker removes it.","3.5.c");
+K("safe","What does a Safety Data Sheet (SDS) provide?","Hazards, handling, storage and first aid information for a chemical",["A schedule of ride inspections","A list of approved vendors","A map of emergency exits"],"SDSs must be readily accessible to employees who work with the chemical.","3.3.a");
+K("safe","Which committee writes the main US consensus standards for amusement rides and devices?","ASTM International Committee F24",["The National Fire Protection Association","The Occupational Safety and Health Administration","The American Red Cross"],"IAAPA staff and members take part in standards work, but ASTM F24 publishes the standards.","3.0");
+K("safe","Which ASTM standard covers the design of amusement rides and devices?","ASTM F2291",["ASTM F770","ASTM F963","ASTM E84"],"F770 covers operation, maintenance and inspection. F963 is the toy safety standard.","3.0");
+K("safe","Which ASTM standard covers ownership, operation, maintenance and inspection of rides?","ASTM F770",["ASTM F2291","ASTM F963","ASTM E84"],"F2291 covers design. Always follow the manufacturer's manuals as well.","3.0");
+K("safe","A ride operator finds that a seat restraint will not lock. What should happen?","Take the seat out of service and report it",["Seat only small guests there","Let guests hold the bar","Wait until the end of the day to tell maintenance"],"A defective restraint stays out of service until qualified staff approve the repair.","3.6.a");
+K("safe","What is the main goal of an incident investigation?","To find root causes and prevent a repeat",["To assign blame quickly","To satisfy the media","To close the file as fast as possible"],"Blame discourages reporting. Cause analysis improves safety.","3.3.e");
+K("safe","After a ride injury, which steps come first?","Stop the ride, help the injured guest and secure the scene",["Clean the ride vehicle","Send guests back to the queue","Repaint any damage"],"Preserve evidence, then notify managers and regulators as the plan requires.","3.3.e");
+K("safe","How should an incident report be written?","With objective facts: who, what, when and where, without speculation",["With opinions about fault","With only the guest's version","After a week, to remember accurately"],"Write it soon, while details are fresh.","3.3.e");
+K("safe","What is the temperature danger zone for food under the FDA Food Code?","41°F to 135°F (5°C to 57°C)",["0°F to 32°F","100°F to 212°F","60°F to 90°F"],"Bacteria multiply quickly in this range. Keep cold food at 41°F or lower and hot food at 135°F or higher.","3.4.a");
+K("safe","What internal temperature should poultry reach?","165°F (74°C)",["145°F (63°C)","135°F (57°C)","185°F (85°C)"],"Use a probe thermometer. Steaks and whole cuts of pork reach 145°F, with a rest time.","3.4.b");
+K("safe","How do you prevent cross-contamination in a kitchen?","Use separate cutting boards and utensils for raw meat and ready-to-eat food",["Wash raw chicken in the sink first","Store raw meat above ready-to-eat food","Wipe boards with a dry towel"],"Raw meat goes on lower shelves, so juices cannot drip onto other food.","3.4.b");
+K("safe","How long should food handlers wash their hands?","At least 20 seconds, including scrubbing and rinsing",["About 5 seconds","Until the soap is gone","Only after using the restroom"],"Wash after restrooms, handling raw food, touching the face and handling trash.","3.4.b");
+K("safe","What is the standard rule for cooling cooked food?","From 135°F to 70°F within 2 hours, then to 41°F within 4 more hours",["From 135°F to 41°F within 12 hours","Leave it at room temperature overnight","Cool it in a large sealed pot"],"Use shallow pans and ice baths to speed cooling.","3.4.b");
+K("safe","Which is one of the nine major food allergens under US law?","Sesame",["Corn","Rice","Beef"],"The others are milk, eggs, fish, shellfish, tree nuts, peanuts, wheat and soy.","3.4.d");
+K("safe","What does HACCP stand for?","Hazard Analysis and Critical Control Points",["Health and Cleaning Compliance Plan","Hot and Cold Control Procedures","Hazardous Area Contamination Control Program"],"It is a system that finds where food hazards can occur and sets controls and limits at those points.","3.4.a");
+K("safe","Which lifting technique protects the back?","Bend the knees, keep the load close and avoid twisting",["Keep legs straight and bend at the waist","Hold the load at arm's length","Twist to turn while carrying"],"Use carts or a second person for heavy or awkward loads.","3.5.c");
+K("safe","When should new employees receive safety training for a task?","Before they start doing that task",["After the first month","Only after an incident","Once a year, in the fall"],"Training should be documented and checked for understanding.","3.5.d");
+K("safe","What does layered security mean?","Using several measures together, such as perimeter control, screening, patrols and cameras",["Having one guard at every gate","Hiring only armed staff","Posting signs instead of staff"],"No single measure stops every threat.","3.7.b");
+K("safe","A lost child reports being separated from a parent. What is the best first step?","Keep the child with a staff member in a safe, visible place and call security",["Tell the child to wait at the exit","Search the park with the child","Send the child to Guest Services alone"],"Release the child only to a verified parent or guardian, following the park's procedure.","3.3.b");
+K("safe","Which condition most raises the risk of a crowd crush?","Dense crowds forced to converge in narrow or blocked spaces",["Light rain","Low attendance","Long shows"],"Good crowd management controls inflow, keeps paths wide and watches for bottlenecks.","3.1.a");
+K("safe","When is shelter in place the right response?","When going outside is more dangerous than staying indoors, such as in a tornado",["When a small fire starts in a kitchen","When a guest is lost","Any time guests are upset"],"Evacuation moves people away from danger inside. Sheltering protects them from danger outside.","3.3.b");
+K("safe","What is the common guidance for resuming outdoor activities after lightning?","Wait 30 minutes after the last thunder",["Wait 5 minutes after the last thunder","Resume when the rain stops","Resume right after the thunder fades"],"If you can hear thunder, lightning is close enough to be dangerous.","3.3.b");
+K("safe","What does drowning often look like?","Quiet, with the person upright and little splashing",["Loud screaming and waving","Strong, steady swimming","Floating face-up"],"Lifeguards scan systematically instead of waiting for noise.","3.3.d");
+K("safe","What is the strongest sign of a healthy safety culture?","Team members report hazards and near misses without fear of blame",["Few reports are filed","Only managers decide on safety","Safety rules are rarely reviewed"],"A low report count can mean people are afraid to speak up.","3.1.a");
+K("safe","What does insurance do in risk management?","Transfers part of the financial risk to an insurer",["Eliminates the hazard","Prevents incidents","Replaces safety training"],"It does not lower the chance of an incident. It pays part of the cost afterward.","3.1.a");
+
+K("safe","Which factors belong in evacuation planning for a specific event?","Routes, hazards along them, time to evacuate and the resources needed",["Speed alone","Avoiding publicity","Guest preferences"],"Plans should fit the event, the venue and the likely emergencies.","3.2.b");
+K("safe","How do you make sure responders use PPE correctly in an emergency?","Train with the equipment ahead of time",["Hand it out when the emergency starts","Keep one set with the site manager","Post instructions on a sign"],"PPE helps only when people have practiced fitting and using it.","3.2.c");
+K("safe","Which is a sound rule for handling hazardous substances?","Keep them in clearly labeled containers and store them as the label says",["Pour them into unmarked bottles","Store flammables in direct sunlight","Share one container across departments"],"Labels and Safety Data Sheets tell you which hazards to expect.","3.3.a");
+K("safe","Which describes a strong emergency plan?","Documented for each type of incident, practiced often and reviewed regularly",["Written once and filed","Kept short so staff improvise","Limited to internal teams"],"Include outside responders and update the plan after drills and real events.","3.2.a");
+K("safe","What should be the first step when planning safety for a large event?","Build a pre-event planning matrix that maps hazards, resources and responsibilities",["Issue a press release","Invite VIPs","Order water and ice"],"Supplies such as water and ice come out of the plan, not before it.","3.7.b");
+K("safe","Which four steps summarize basic food safety?","Clean, separate, cook and chill",["Cook, serve, sell and store","Wash, wrap, weigh and warm","Clean, count, cook and cash"],"Cleaning prevents spread, separating prevents cross-contamination, cooking kills bacteria and chilling slows growth.","3.4.b");
+K("safe","What makes compliance training effective?","It is well delivered, documented, tested and reviewed so staff understand and follow it",["A signed attendance sheet","Informal chats to keep staff interested","Telling staff they will be held liable"],"Records prove training happened. Testing shows it worked.","3.5.b");
+K("safe","What is a sound rule for radio use?","Use agreed codes or phrases so sensitive information stays internal",["Share details because guests rarely listen","Let the longest-serving person speak first","Give each user a nickname"],"Guests and people nearby can overhear radio traffic.","3.7.a");
+K("safe","What does good back-of-house waste handling look like?","Waste streams are separated and kept apart in the main holding area, including packaging and used oil",["Everything mixed for one pickup","Leaving sorting to guests","Recycling only items that earn money"],"Local rules often set how oil, packaging and other streams must be handled.","3.6.b");
+
+/* ---- Domain 4: Marketing and Public Relations ---- */
+K("mkt","What are the four Ps of the marketing mix?","Product, price, place and promotion",["People, process, planning and profit","Product, packaging, people and policy","Price, positioning, publicity and performance"],"Every marketing decision touches at least one of the four.","4.0");
+K("mkt","Grouping guests by shared traits such as family stage or distance from the park is called what?","Market segmentation",["Positioning","Price discrimination","Brand extension"],"Segmentation, targeting and positioning (STP) is a standard sequence.","4.4.g");
+K("mkt","What do psychographics describe?","Attitudes, interests and lifestyle",["Age and income","Home address","Purchase history only"],"Demographics describe measurable traits such as age, gender and household income.","4.4.g");
+K("mkt","Which is an example of secondary research?","Using a published industry attendance report",["A guest exit survey","A focus group","A mystery shopper visit"],"Primary research is collected firsthand for your own question.","4.1.b");
+K("mkt","In a SWOT analysis, a new competitor opening nearby is which item?","A threat",["A weakness","A strength","An opportunity"],"Strengths and weaknesses are internal. Opportunities and threats are external.","4.1.d");
+K("mkt","A local reporter writes a feature about your new ride. What kind of media is this?","Earned media",["Paid media","Owned media","Sponsored media"],"Owned media includes your own website and social accounts. Paid media is advertising you buy.","4.3.f");
+K("mkt","How is click-through rate (CTR) calculated?","Clicks divided by impressions",["Purchases divided by visitors","Impressions divided by clicks","Revenue divided by ad spend"],"If 1,000 people see an ad and 20 click, the CTR is 2 percent.","4.6.a");
+K("mkt","What does conversion rate measure?","The share of visitors who complete a desired action, such as buying a ticket",["The number of page views","The cost of one click","The share of visitors from search"],"If 500 visit a ticket page and 25 buy, the conversion rate is 5 percent.","4.6.a");
+K("mkt","What does SEO aim to do?","Improve a site's ranking in unpaid search results",["Buy ad space on search results","Send emails to past guests","Track ticket sales at the gate"],"Paid search ads are a separate tactic.","4.6.a");
+K("mkt","During a crisis, which communication approach works best?","Share confirmed facts promptly through one designated spokesperson, without speculation",["Wait until every detail is known before speaking","Let every employee speak to the press","Deny the problem until it is resolved"],"Silence and guesses both erode trust. Update as facts change.","4.5.c");
+K("mkt","What is a good way to answer a negative public review?","Reply promptly and politely, then offer to resolve it privately",["Delete it","Argue with the reviewer in public","Ignore it"],"Other readers see how you respond, not just what was said.","4.2.c");
+K("mkt","Why segment an email list?","So each group receives offers that fit its interests",["To send more emails to everyone","To avoid collecting guest data","To skip unsubscribe links"],"A season-pass holder and a first-time visitor need different messages.","4.5.d");
+K("mkt","How is cost per acquisition (CPA) calculated?","Marketing spend divided by the number of new customers won",["Revenue divided by clicks","Clicks divided by spend","Spend divided by impressions"],"If a $5,000 campaign wins 250 new customers, the CPA is $20.","4.3.c");
+K("mkt","What is the aim of public relations?","To build and keep goodwill with the public and the press",["To set ticket prices","To staff the ticket windows","To design new rides"],"PR earns attention through relationships and news, rather than paid placement.","4.0");
+K("mkt","What are two main purposes of a loyalty program?","Reward repeat visits and gather guest data",["Cut marketing spend to zero","Replace ticket sales","Eliminate seasonality"],"Data from loyalty programs helps target offers and measure repeat behavior.","4.4.b");
+K("mkt","Which question belongs in a competitor analysis?","What do nearby attractions charge and offer?",["How many team members do we need?","How hot will it be on Saturday?","When does our insurance renew?"],"Compare price, product, location, promotion and guest reviews.","4.1.b");
+
+K("mkt","What is the best approach to guest comments on social media and fan sites?","Follow them regularly and use them to understand and answer guest concerns",["Ignore them because guests complain","Leave it all to specialists","Rely on TV ads instead"],"Social channels show what guests really think and give you a chance to respond quickly.","4.6.b");
+
+/* ---- Domain 5: Human Resources and Management ---- */
+K("hr","In the Kirkpatrick model of training evaluation, which level checks whether trainees apply skills on the job?","Level 3, behavior",["Level 1, reaction","Level 2, learning","Level 4, results"],"Level 1 is reaction, 2 is learning, 3 is behavior and 4 is results.","5.2.d");
+K("hr","What do the letters in ADDIE stand for?","Analysis, design, development, implementation, evaluation",["Assess, deliver, document, inspect, escalate","Approve, direct, discuss, implement, end","Analyze, decide, deploy, inspect, endorse"],"It is a common framework for building training programs.","5.2.a");
+K("hr","How does onboarding differ from a one-day orientation?","Onboarding is a longer process that helps a new hire become productive and connected",["Onboarding is only paperwork","Orientation lasts a year","They are the same thing"],"Strong onboarding improves retention, especially for seasonal staff.","5.1.c");
+K("hr","How does cross-training help a seasonal workforce?","It provides coverage during absences and peak times",["It replaces job descriptions","It lowers wages","It removes the need for managers"],"Cross-trained staff can move to the area that needs them most.","5.2.b");
+K("hr","What is progressive discipline?","A series of escalating steps, such as verbal warning, written warning and suspension",["Firing on the first mistake","Giving raises for good behavior","Reviewing only top performers"],"Steps should be consistent, fair and documented.","5.4.b");
+K("hr","Why document performance conversations?","It creates a factual record that supports fair, consistent decisions",["It replaces coaching","It guarantees promotion","It is required only for managers"],"Keep notes factual and specific.","5.4.a");
+K("hr","What does SMART stand for in goal setting?","Specific, Measurable, Achievable, Relevant, Time-bound",["Simple, Modern, Accurate, Reliable, Timely","Strategic, Managed, Approved, Reviewed, Tracked","Safe, Meaningful, Accountable, Required, Tested"],"A goal such as 'cut average wait by 10 percent by June' meets all five.","5.4.a");
+K("hr","How is the employee turnover rate calculated?","Separations divided by average headcount, times 100",["New hires divided by total payroll","Payroll divided by headcount","Absences divided by scheduled days"],"If 30 of an average 100 employees leave in a year, turnover is 30 percent.","5.5.b");
+K("hr","Which practice best helps retain strong seasonal staff for next year?","Priority rehire or a return bonus for good performers",["Cutting hours mid-season","Skipping training","Posting job ads only in spring"],"Rehiring returners saves hiring and training costs.","5.5.b");
+K("hr","Under the US Fair Labor Standards Act, how is overtime generally paid to non-exempt employees?","At 1.5 times the regular rate for hours over 40 in a week",["At the regular rate","At double the rate for all hours","As a monthly bonus"],"Overtime rules differ by country and state, so check local law.","5.3.a");
+K("hr","Why must parks that hire teenagers check labor rules before scheduling them?","Laws limit the hours minors can work and some tasks they can perform",["Minors cannot be hired at all","Minors must always be paid more","Parks must hire only students"],"The local government labor office is the best source for these rules.","5.3.a");
+K("hr","A supervisor hears of a harassment complaint. What should happen?","Report it right away per policy so it can be investigated",["Wait to see whether it happens again","Ask the employee to resolve it alone","Hold it until the annual review"],"Supervisors cannot keep a complaint to themselves.","5.3.d");
+K("hr","An employee with a disability asks for a workplace adjustment. What do US employment rules generally expect?","Discuss options in good faith and provide a reasonable accommodation unless it causes undue hardship",["Refuse all adjustments","Grant any request without discussion","Move the employee to a new job"],"Employment rules differ by country, so check local law.","5.3.c");
+K("hr","What is span of control?","The number of direct reports a supervisor manages",["The number of locations a park operates","The hours a manager works","The scope of a department's budget"],"A span that is too wide can leave employees without enough support.","5.0");
+K("hr","Which practice most directly builds employee engagement?","Regular recognition and open two-way communication",["Rare feedback","Frequent schedule changes","Strict top-down announcements"],"Engaged employees tend to give better service and stay longer.","5.5.a");
+K("hr","What makes feedback effective?","It is specific, timely and about behavior",["It is saved for annual reviews","It focuses on personality","It is shared in front of the team"],"Say what you saw, what effect it had, and what to do next.","5.4.a");
+K("hr","When a manager delegates a task, what stays with the manager?","Accountability for the result",["Responsibility for doing the task","Nothing","Only the credit"],"Delegating shares the work, not the accountability.","5.0");
+K("hr","Two team members are in conflict. What is a good first step?","Hear each person separately to understand the facts",["Pick a side","Ask the team to vote","Ignore it until it fades"],"Listen first, then bring them together to find an agreement.","5.4.b");
+K("hr","What is the purpose of an exit interview?","To learn why employees leave and what could be improved",["To decide severance pay","To discipline the employee","To recruit a replacement"],"Patterns across exit interviews point to fixable problems.","5.5.b");
+K("hr","What does situational leadership suggest?","Match your leadership style to the readiness of the person and the task",["Use one style for everyone","Always give orders","Let teams manage without guidance"],"A new hire needs more direction than an experienced team member.","5.0");
+
+K("hr","Where is the most reliable place to confirm your local employer responsibilities?","The government labor office or regulator",["An HR forum","A blog on HR trends","An employee at another park"],"Rules on hours, pay, minors and discipline vary by place, so go to the official source.","5.3.a");
+
+/* ICAP Examination Syllabus (IAAPA, February 2021): domain > sub-domain > lettered topics, paraphrased. IAAPA can change topics and format. */
+const SYL = {
+  1: { subs: [
+    ["Operations Metrics", [
+      "Compare the costs of turnkey entertainment and show production run by the facility",
+      "Identify target audiences, demographics and show types, including strolling entertainment",
+      "Know the items needed for entertainment productions and what they cost",
+      "Understand space requirements and decoration costs",
+      "Know general venue maintenance costs",
+      "Estimate return on investment for special events",
+      "Understand cost-per-guest fees",
+      "Schedule shows to improve facility capacity by date, time and season",
+      "Use guest feedback to improve operations in the short and long term"]],
+    ["Facility and Show Experience", [
+      "Understand the elements of facility and show décor and design",
+      "Apply themes and buy pre-show, during-show and post-show entertainment",
+      "Understand communication and signage about entertainment details such as weather, exceptions and delays",
+      "Know the certifications and standards for special effects such as fireworks"]],
+    ["Entertainment and Special Events", [
+      "Understand the planning process for special events such as festivals",
+      "Coordinate vendors, employees and venue changes for event success",
+      "Use costume characters to fill gaps in show capacity or create the show experience",
+      "Use strolling shows and entertainment for queues and dining areas"]],
+    ["Exhibit Education", [
+      "Plan experiences that educate and entertain and tie to the facility brand",
+      "Understand staffing and maintenance schedules that keep exhibits cared for and clean",
+      "Use guest engagement strategy to build interest beyond the exhibit and draw more attendance",
+      "Develop exhibit experiences for different learning styles"]],
+    ["Entertainment Sustainability", [
+      "Use cost-effective strategies to keep entertainment fresh, such as changing part of it each season",
+      "Develop content that becomes a must-see attraction with multiple years of life and low capital cost",
+      "Develop content that appeals across several target demographics"]],
+    ["Guest Services and Hospitality", [
+      "Identify and support a customer service model that fits the brand",
+      "Communicate with guests effectively, allowing for cultural differences",
+      "Train staff in guest communication and customer service",
+      "Manage social media interactions between staff and guests",
+      "Understand customer service techniques and strategies",
+      "Design and develop recovery toolkits such as meal tickets, reduced future tickets and souvenirs",
+      "Use de-escalation techniques and manage aggressive guest behavior"]],
+    ["Special Populations", [
+      "Know the resources available to guests with disabilities, including temporary limitations",
+      "Know basic information about accessibility in all areas of the facility",
+      "Apply regional regulatory guidelines to guest requests, such as the ADA and service animal rules",
+      "Understand government requirements for accessibility in entertainment venues, such as listening devices, interpreters and caption devices"]]
+  ]},
+  2: { subs: [
+    ["In-House Research and Development", [
+      "Understand cost of goods, profit margin, loss and shrinkage, and theft prevention",
+      "Understand budgets, projects and per cap reporting",
+      "Spot upselling opportunities and guide staff through the process",
+      "Understand guest processing procedures in non-peak and peak line times"]],
+    ["Food and Beverage", [
+      "Create and adjust menu boards and signage for revenue and clarity",
+      "Read, train and align recipes with the venue and seasonal themes",
+      "Know how to execute recipes for serving, including presentation",
+      "Manage cost of goods in food and beverage through reports that reflect sales and waste",
+      "Schedule front of house and back of house staff for non-peak, peak and special events",
+      "Train staff on alcohol and food safety laws and guidelines",
+      "Process rentals of services and products within the location"]],
+    ["Merchandise, Retail Management, and Games", [
+      "Understand causes of bottlenecks and how to adjust pathways and stock to improve guest flow",
+      "Understand stockroom flow and replenishment",
+      "Know product guidelines for storage, review and replenishment, including in food and game areas",
+      "Interpret reports of sales, costs and required stock within correct PAR levels",
+      "Train staff on inventory process and storage",
+      "Know game product standards and how to order for events and daily business",
+      "Understand processes and procedures for game and prize handling"]],
+    ["Ticketing and Admissions", [
+      "Adjust queue lines, ticket windows and gates for efficient guest flow",
+      "Manage memberships, annual passes, group sales and special program guests",
+      "Create selling guides for tickets and passes",
+      "Use point-of-sale and reporting systems fully"]],
+    ["Catering and Group Sales", [
+      "Create and adjust Banquet Event Orders for requested events",
+      "Communicate requests to colleagues for supplies, tools and entertainment",
+      "Know how to get materials, permits and labor to run catered events"]],
+    ["Financial Metrics", [
+      "Know per caps and what they mean statistically for the organization",
+      "Know labor-to-revenue ratios",
+      "Know reports of sales and costs",
+      "Understand how to assess and identify high-cost, low-margin items"]],
+    ["Budgets and Business Plans", [
+      "Analyze trends in revenue and expenses over a set period",
+      "Understand current and future staffing needs against strategic objectives",
+      "Understand the balance between holding too much and too little inventory"]],
+    ["Operating Budget and Pricing", [
+      "Estimate income and expenditures over a set period",
+      "Understand the costs of acquiring or producing the goods a business sells",
+      "Understand how to document the loss of raw materials",
+      "Understand forecasting and projecting budget increases and decreases",
+      "Know contract negotiation strategy"]],
+    ["Capital Budget Management", [
+      "Understand how to evaluate major projects and investments, including ROI",
+      "Understand business systems and infrastructure needs"]],
+    ["Cash Handling and Credit Management", [
+      "Understand cash handling methods and controls",
+      "Understand cash management and cash flow",
+      "Understand loss and waste and their effect on an organization",
+      "Understand the difference between cash at the start and end of a period"]]
+  ]},
+  3: { subs: [
+    ["Risk Management", [
+      "Understand the risk management process",
+      "Conduct a risk assessment",
+      "Know the health and safety duties of an employer",
+      "Know the health and safety duties of an employee"]],
+    ["Emergency Preparedness", [
+      "Develop emergency action plans",
+      "Know appropriate evacuation procedures for specific events",
+      "Know the personal protective equipment needed for different emergency responses",
+      "Understand the need for and management of an Emergency Response Team",
+      "Develop incident response plans"]],
+    ["Incident Management", [
+      "Identify appropriate procedures for managing hazardous substances in the workplace",
+      "Know standard responses to natural disasters, weather and critical incidents",
+      "Understand initiatives to prevent the spread of disease",
+      "Know basic first aid",
+      "Implement incident response plans"]],
+    ["Food Safety", [
+      "Identify potential food safety hazards",
+      "Identify solutions for controlling hazards",
+      "Understand the need to keep required records on food products and safety",
+      "Know applicable food and alcohol safety laws and guidelines"]],
+    ["Employee Safety", [
+      "Identify common hazards and risks in the workplace",
+      "Understand the requirement to conduct and document compliance training",
+      "Know how to reduce and control common workplace hazards and risks",
+      "Understand how to train employees in workplace safety"]],
+    ["Ride, Attraction, Show, and Facility Safety", [
+      "Have general awareness of venue-specific safety for front and back of house operations",
+      "Know environmental and waste disposal procedures"]],
+    ["Security", [
+      "Know basic security equipment operation",
+      "Understand the logistics of providing security measures, such as supplies, equipment and personnel"]]
+  ]},
+  4: { subs: [
+    ["Consumer Research and Competition Analysis", [
+      "Ask for, collect, interpret and act on guest feedback",
+      "Collect, interpret and share competitor data internally",
+      "Understand seasonality and its effects on the attractions market",
+      "Understand and take part in SWOT analysis preparation",
+      "Turn collected data into reports for upper management"]],
+    ["Branding", [
+      "Align promotional and product content with brand standards",
+      "Keep the brand message consistent for the target audience and internal staff",
+      "Check guest experience against the brand promise using online reviews and mystery shopper reports"]],
+    ["Advertising", [
+      "Understand online promotion and engagement methods, including social media and the target audience profile",
+      "Understand media planning and promotional calendars",
+      "Understand media buying, core marketing and advertising terms such as ROI and reach",
+      "Understand direct marketing such as brochures, coupons, trade shows, catalogs and direct mail",
+      "Understand the main features and steps of promotional campaigns",
+      "Understand how media outlets work and perform"]],
+    ["Targets and Channels", [
+      "Understand group and corporate sales strategies",
+      "Understand and plan loyalty and membership programs",
+      "Target special occasions such as birthdays and anniversaries",
+      "Know direct and indirect sales channels",
+      "Collect and evaluate ticket channel performance data",
+      "Be aware of special needs and key disability regulations",
+      "Understand guest demographic data"]],
+    ["Communications", [
+      "Create and deliver presentations to stakeholders",
+      "Write copy that supports product marketing initiatives",
+      "Create crisis communications content",
+      "Know how to use email marketing and CRM platforms"]],
+    ["On-line Marketing", [
+      "Understand digital advertising functions such as paid search and click metrics",
+      "Understand messaging on social media as the voice of the brand",
+      "Understand analytics for social media KPIs such as followers, likes and shares",
+      "Build social media strategy into marketing plans alongside conventional promotion",
+      "Select and evaluate agencies and influencers, including interviews and feedback",
+      "Develop core messaging to give agencies and influencers"]],
+    ["Products Development, Promotions, and Sales", [
+      "Run planned and ad hoc initiatives for new attractions, content, special events and special offers",
+      "Understand the effect of promotions on profit and loss",
+      "Keep promotional communication consistent for key accounts",
+      "Understand yield management, including dynamic, variable and savings pricing",
+      "Understand sales across the whole business, from gate to group to indirect",
+      "Know distribution channels such as direct, group sales and third-party online travel agencies",
+      "Coordinate activities with the sales team"]]
+  ]},
+  5: { subs: [
+    ["Recruiting and Staffing", [
+      "Understand appropriate and effective interview techniques",
+      "Identify the knowledge, skills and abilities a facility position requires",
+      "Create and run onboarding processes",
+      "Understand competency-based recruitment and selection"]],
+    ["Training and Development", [
+      "Understand the importance of a planned induction, orientation and on-the-job training program",
+      "Understand how to conduct on-the-job training",
+      "Take part in self-development programs",
+      "Assess competence after training",
+      "Guide staff and third-party vendors on company guidelines and procedures"]],
+    ["Human Resources Legal Issues", [
+      "Understand local employer responsibilities for team member employment",
+      "Support compliance with human resource policy",
+      "Understand the basic principles of Equal Employment Opportunity",
+      "Have general knowledge of anti-harassment principles"]],
+    ["Performance Management and Supervision", [
+      "Understand effective techniques for conducting performance reviews",
+      "Understand common strategies for addressing performance problems",
+      "Understand best practice for leading team briefings and meetings"]],
+    ["Staff Engagement", [
+      "Understand the importance of engaging team members in the vision and mission",
+      "Understand the value of making the organization desirable as an employer",
+      "Understand the importance of employee well-being programs",
+      "Know the principles of diversity and inclusion in the workplace"]]
+  ]}
+};
+
+/* ---- Added to cover every ICAP syllabus topic ---- */
+K("ops","A park can buy a ready-made show from a vendor or produce one with its own team. What is the main trade-off?","Turnkey shows are faster and need fewer in-house skills but often cost more per run, while in-house shows give more control but need staff and space",["Turnkey shows always cost less than in-house shows","In-house shows need no rehearsal space or staff","There is no cost difference after the first year"],"Compare the full cost of each option, including rehearsal, costumes, sets and upkeep.","1.1.a");
+K("ops","Before choosing a show type, what should the team identify first?","The target audience and its demographics",["The cheapest vendor","The longest open time slot","The newest technology"],"A family audience may suit character shows or strolling performers, while teens may prefer high-energy shows.","1.1.b");
+K("ops","Which list best covers what a show budget must include?","Performers, costumes, sets, sound and lighting, rehearsal and maintenance",["Performers only","Tickets and merchandise only","Marketing and legal fees only"],"Missing items such as rehearsal time or spare costumes are a common source of overruns.","1.1.c");
+K("ops","Why check a venue's space needs before approving a new show?","Stage, backstage, audience area and décor all need room, and each adds cost",["Space affects only the ticket price","Décor is always included free","Only outdoor shows need space"],"Set pieces and décor also need storage and upkeep.","1.1.d");
+K("ops","Which is a typical ongoing maintenance cost for a theater venue?","Repairing and replacing lighting, sound equipment, seating and stage surfaces",["One-time construction fees only","Guest refunds","Advertising fees"],"Include routine upkeep in the show budget, not just the build.","1.1.e");
+K("ops","A festival costs $40,000 to run and brings in $60,000 in extra revenue. What is its ROI?","50 percent",["20 percent","150 percent","33 percent"],"ROI = (extra revenue minus cost) divided by cost, so 20,000 divided by 40,000.","1.1.f");
+K("ops","A show costs $5,000 to run and 1,000 guests attend. What is the cost per guest?","$5",["$50","$0.50","$500"],"Cost per guest = total cost divided by attendance. Compare it with what each guest spends.","1.1.g");
+K("ops","What do décor and design choices do for a facility's shows?","Set the theme and mood that guests experience",["Replace the need for performers","Reduce the need for signage","Determine ticket prices"],"Colors, props, lighting and layout should all point to the same theme.","1.2.a");
+K("ops","What does a consistent theme tie together across a guest's visit?","Pre-show, main show and post-show entertainment",["Only the ticket price tiers","Only merchandise","Only the staff schedule"],"Warm-ups before a show and moments after it reinforce the same story.","1.2.b");
+K("ops","What is usually required before a park presents fireworks?","Licensed or certified operators and compliance with local permits and standards",["A guest vote","Only the manufacturer's brochure","A sponsor's approval"],"Pyrotechnics and other special effects are regulated, and rules differ by location.","1.2.d");
+K("ops","Why plan staffing and maintenance schedules for an exhibit?","To keep it cared for, clean and open when guests visit",["To cut the number of guests","To avoid training","To remove the need for inspections"],"A broken or dirty exhibit damages the guest experience quickly.","1.4.b");
+K("ops","How can an exhibit draw extra attendance beyond its first weeks?","Add talks, activities and programs that keep guests curious",["Raise admission each month","Hide it behind another exhibit","Close it for part of the year"],"Fresh programming gives members a reason to return.","1.4.c");
+K("ops","Which pairing matches a learning style with an exhibit feature?","Kinesthetic learners with hands-on activities",["Visual learners with audio-only tours","Auditory learners with silent text panels","Verbal learners with touch-only displays"],"Mix visual, auditory, hands-on, logical and verbal elements so more guests connect.","1.4.d");
+K("ops","Which is a cost-effective way to keep a long-running show fresh?","Refresh part of it each season, such as scenery or scenes, and keep the core content",["Replace the whole show every year","Cut rehearsal time","Never change anything"],"A planned partial refresh, for example about a quarter of the show each season, gives returning guests something new.","1.5.a");
+K("ops","What helps content become a must-see attraction?","A strong, lasting concept that runs for several years without major new spending",["A new theme every month","A very high ticket price","A very short run"],"Signature content builds repeat attendance.","1.5.b");
+K("ops","Why develop content that appeals across several age groups?","It draws wider audiences and supports repeat visits",["It removes the need for market research","It brings cost per guest to zero","It means fewer show times"],"Family shows often include humor and moments for different ages.","1.5.c");
+K("ops","What should a park's customer service model reflect?","Its brand promise and the guest experience it advertises",["The lowest staffing level possible","The preferences of the longest-serving staff","A competitor's model, copied exactly"],"A luxury brand and a budget brand serve guests differently.","1.6.a");
+K("ops","Why should staff adapt their communication to cultural differences?","Guests from different cultures may expect different greetings, gestures and service styles",["Everyone prefers the same style","It slows service on purpose","It is needed only with VIPs"],"Plain language, patience and translated signs help.","1.6.b");
+K("ops","Which method best trains staff for guest conversations?","Role-play with real scenarios and coaching afterward",["A single reading assignment","A one-time video with no practice","Letting staff learn by trial and error"],"Practice with feedback builds confidence.","1.6.c");
+K("ops","A guest is shouting at the ticket window. What is a good first de-escalation step?","Stay calm, listen and acknowledge the guest's concern",["Raise your voice to take control","Ask the guest to leave right away","Argue the facts"],"Move the conversation somewhere quieter and bring in a supervisor if safety is at risk.","1.6.g");
+K("ops","What basic accessibility information should staff know about the facility?","Which entrances, restrooms, routes, seating and rides are accessible",["Only the main gate hours","Only parking prices","Only the number of emergency exits"],"Staff who know the layout can direct guests quickly.","1.7.b");
+K("ops","Which service do accessibility rules commonly require for entertainment venues?","Assistive listening devices and sign language interpretation where required",["Priority parking for staff","Free souvenirs","Longer opening hours"],"Caption devices at cinemas are another example. Rules differ by location.","1.7.d");
+
+K("rev","Why report per caps by location and category?","To see where guest spending is strong or weak and adjust plans",["To set ride heights","To count staff breaks","To rank guests by age"],"Per cap = revenue divided by attendance. Compare it against budget over time.","2.1.b");
+K("rev","Why must kitchen teams follow standardized recipes?","Taste, portion size and cost stay consistent",["Guests dislike variety","Recipes cost less when changed daily","Portions do not matter"],"Recipes should also fit the venue's seasonal themes.","2.2.b");
+K("rev","What does good food presentation do?","Raises the perceived value and guest satisfaction",["Reduces cooking time","Lowers food cost automatically","Removes the need for portioning"],"Plating, garnish and cleanliness make a dish look worth its price.","2.2.c");
+K("rev","What should alcohol service training cover?","Checking ID, recognizing intoxication and refusing service when required",["Only pouring techniques","Upselling to every guest","Serving anyone with a ticket"],"Laws and legal ages differ by location.","2.2.f");
+K("rev","A guest wants to rent a cabana. What should staff do?","Confirm availability, quote the price and terms, take payment and record the booking",["Hold it verbally with no record","Quote an estimate and set the price later","Send the guest to a competitor"],"A clear process keeps rentals accurate and prevents double booking.","2.2.g");
+K("rev","What is a sound stockroom practice?","Organize stock so the most-used items are easy to reach and restock at set trigger points",["Store newest items in front of older ones","Leave stock in the aisles","Restock only when shelves are empty"],"Reorder points keep popular items from running out.","2.3.b");
+K("rev","What is a PAR level?","The target quantity of an item to keep on hand",["The price above retail","A sales rating","The safe temperature of an item"],"Compare sales and stock reports with PAR levels to decide what to order.","2.3.d");
+K("rev","Why train staff on inventory counts and storage?","Accurate counts and correct storage cut loss, waste and ordering errors",["Counts are needed only at year end","It replaces sales reports","It removes the need for locks"],"Regular counts also reveal shrink early.","2.3.e");
+K("rev","What does a selling guide for tickets and passes give staff?","Key points, options and prompts to match guests with the right product",["Only a list of refund exceptions","A copy of the contract","A maintenance schedule"],"It helps staff explain the value of passes and upgrades with confidence.","2.4.c");
+K("rev","After booking a catered event, how should the event lead share needs with other departments?","Send clear written requests for supplies, equipment and entertainment with dates and quantities",["Mention them in passing","Wait until the day of the event","Let each department guess"],"The BEO is the shared reference for everyone.","2.5.b");
+K("rev","Before an outdoor catered event, what should be arranged?","Needed materials, any required permits and enough labor",["Only the menu","Only the guest list","Only the invoice"],"Permits may cover food service, alcohol, tents or music, and rules vary.","2.5.c");
+K("rev","Labor costs are $30,000 on revenue of $100,000. What is the labor-to-revenue ratio?","30 percent",["3.3 percent","70 percent","300 percent"],"Ratio = labor cost divided by revenue.","2.6.b");
+K("rev","Why compare reports of sales with reports of costs?","To see profit and find where costs are too high",["To set ride heights","To pick show times","To rank staff by age"],"Sales alone can hide a loss.","2.6.c");
+K("rev","A menu item sells well but has a very low margin. What should the manager consider?","Raising its price, cutting its portion or ingredient cost, or promoting higher-margin items",["Doing nothing because it sells well","Doubling its portion","Removing every low-selling item"],"Volume does not equal profit.","2.6.d");
+K("rev","Why look at future staffing needs when making a business plan?","Growth or new attractions change how many staff and which skills are needed",["Staffing never changes","Only seasonal staff matter","Only managers matter"],"Link hiring plans to the goals in the plan.","2.7.b");
+K("rev","What is a risk of holding too much inventory?","Cash is tied up and stock can spoil or become outdated",["Guests find nothing to buy","Prices must rise","Sales rise automatically"],"Too little inventory causes lost sales, so the aim is balance.","2.7.c");
+K("rev","Why record spoiled or wasted raw materials?","To track true cost of goods and spot problems in handling or ordering",["To lower the tax rate","To avoid doing counts","To boost sales"],"Waste logs support accurate cost reporting.","2.8.c");
+K("rev","A park expects attendance to rise 10 percent. What should the budget forecast include?","Higher revenue and higher variable costs, such as labor and supplies",["Higher revenue only","Lower fixed costs","No change in costs"],"Fixed costs stay flat, but variable costs follow volume.","2.8.d");
+K("rev","Which is a sound approach to negotiating a vendor contract?","Know your needs and alternatives, compare quotes and agree terms in writing",["Accept the first offer","Reveal your maximum budget immediately","Rely on a verbal agreement"],"Written terms protect both sides.","2.8.e");
+K("rev","What does cash flow measure?","Money moving in and out of the business over a period",["Total profit for the year","The value of equipment","The number of tickets sold"],"A business can be profitable but short of cash if bills arrive before payments.","2.10.b");
+K("rev","How do loss and waste affect an organization?","They raise costs and cut profit",["They raise margins","They matter only at year end","Guests cover them"],"Waste includes spoiled food, damaged goods and theft.","2.10.c");
+K("rev","A drawer starts the period with $500 and ends with $1,250. What is the net change in cash?","$750 increase",["$500 increase","$1,250 increase","$750 decrease"],"Net change = ending cash minus beginning cash.","2.10.d");
+
+K("safe","Which is a typical health and safety duty of an employer?","Provide a safe workplace, training and needed protective equipment",["Ask employees to buy their own PPE","Report incidents only if someone is hurt","Let each employee set their own rules"],"Exact duties vary by country, so check local law.","3.1.c");
+K("safe","Which is a typical health and safety duty of an employee?","Follow safety procedures and report hazards",["Fix hazards without telling anyone","Skip PPE when busy","Decide which rules to follow"],"Employees also use equipment as trained and avoid putting others at risk.","3.1.d");
+K("safe","What should an incident response plan assign?","Clear roles, steps, contacts and communication for each type of incident",["Blame for past incidents","Only the ticket refund policy","Only the manager's phone number"],"Practice the plan and update it after each use.","3.2.e");
+K("safe","Which measure helps prevent the spread of disease in a venue?","Handwashing stations, regular cleaning of touch points and keeping ill staff home",["Closing every restroom","Removing all signage","Asking guests to avoid water"],"Follow current public health guidance.","3.3.c");
+K("safe","Which food safety records should be kept?","Temperature logs, cleaning schedules and supplier and delivery records",["Only guest compliments","Only staff birthdays","None, if food looks fine"],"Records show inspectors and managers that the system works.","3.4.c");
+
+K("mkt","What is the best use of guest survey results?","Find patterns, act on them and tell guests what changed",["File them without reading","Use them only for advertising","Share only the positive ones"],"Closing the loop encourages future feedback.","4.1.a");
+K("mkt","How should research findings be reported to senior managers?","A short report with clear findings, charts and recommended actions",["Raw spreadsheets with no summary","Verbal opinions only","Only the best numbers"],"Lead with what matters and what to do.","4.1.e");
+K("mkt","Why check every promotion against brand standards?","So logos, tone and visuals stay consistent",["To make ads longer","To avoid approvals","To reduce the budget"],"Consistency builds recognition and trust.","4.2.a");
+K("mkt","Why share the brand message with staff as well as guests?","Staff deliver the brand in person, so their words and actions must match it",["Staff never speak to guests","Only marketing needs to know","Staff set the brand themselves"],"A gap between promise and experience hurts the brand.","4.2.b");
+K("mkt","How do you choose which online channel to promote on?","Match the channel to where your target audience spends time",["Pick the cheapest channel","Use one channel forever","Pick the one competitors avoid"],"Check the audience profile for each platform.","4.3.a");
+K("mkt","What does a promotional calendar do?","Schedules campaigns, events and media across the year so efforts do not clash",["Lists staff vacations","Sets ticket prices daily","Tracks ride maintenance"],"It also shows gaps and busy periods.","4.3.b");
+K("mkt","Which is an example of direct marketing?","A mailed coupon or brochure sent to a targeted list",["A TV news story","A word-of-mouth review","An unpaid magazine article"],"Others include catalogs, trade show materials and direct mail campaigns.","4.3.d");
+K("mkt","Which order best describes a promotional campaign?","Set goals, define the audience, plan the message and channels, run it, then measure",["Run it, set goals, pick the audience, measure","Measure, run it, set goals, choose channels","Choose a channel, then run it"],"Measuring against the original goals shows what to repeat.","4.3.e");
+K("mkt","What helps win corporate group business?","A single contact, a clear package with pricing and flexible dates",["Fixed pricing with no flexibility","No group discounts","Talking only to individual guests"],"Corporate buyers value simple booking and reliable service.","4.4.a");
+K("mkt","How can a park target special occasions?","Offer birthday and anniversary packages and promote them to guests with those dates",["Offer one ticket year-round","Avoid collecting dates","Promote only during holidays"],"Occasion packages can raise group size and spending.","4.4.c");
+K("mkt","Which is an indirect sales channel?","A travel agent or online travel agency selling your tickets",["Your own ticket window","Your own website","Your own call center"],"Direct channels are ones you operate yourself.","4.4.d");
+K("mkt","Why track sales by ticket channel?","To see which channels deliver the most sales at the best cost and shift effort there",["To raise prices in all channels","To stop selling online","To remove discount codes"],"Channel data guides budgets and partner choices.","4.4.e");
+K("mkt","Why should marketing staff know disability regulations?","Materials, websites and offers must be accessible and accurate for all guests",["Rules apply only to ride staff","Accessibility is never a marketing issue","They limit promotions to adults"],"Accessible information is part of a good guest experience.","4.4.f");
+K("mkt","What makes a presentation to stakeholders effective?","A clear message, supporting data and a defined ask",["As many slides as possible","Technical jargon only","No data"],"Stakeholders should know what you want them to decide.","4.5.a");
+K("mkt","What should good marketing copy do?","Speak to the audience, match the brand voice and include a clear call to action",["Use as many adjectives as possible","Copy a competitor's text","Avoid any call to action"],"Short, specific copy works better than vague claims.","4.5.b");
+K("mkt","Which metric best shows social media engagement?","Shares, comments and likes relative to reach",["Number of staff posting","Posts per hour","Server speed"],"Followers show size, while engagement shows interest.","4.6.c");
+K("mkt","How should social media fit in a marketing plan?","Run in parallel with traditional promotion, with shared goals and messages",["Replace all other marketing","Run separately with its own message","Be added at the end"],"Plan channels together so messages support each other.","4.6.d");
+K("mkt","What should you review before partnering with an influencer?","Audience fit, engagement quality, past content and brand alignment",["Follower count alone","Only the lowest fee","Only their location"],"Interviews and past results help predict fit.","4.6.e");
+K("mkt","What should a brief to an agency or influencer include?","Core messages, key points, dos and don'ts and required disclosures",["Only the logo","Nothing, to allow creativity","A competitor's slogans"],"Paid partnerships often must be disclosed under law or platform rules.","4.6.f");
+K("mkt","A discount raises ticket sales 20 percent but cuts the price 30 percent. What should you check?","Whether total revenue and profit rise or fall after costs",["Only whether volume rose","Only whether guests liked it","Nothing, volume is all that matters"],"Promotions must be judged on profit, not volume alone.","4.7.b");
+K("mkt","Why keep promotional messages consistent for key accounts?","Partners and large buyers need the same offers and terms across channels",["To hide discounts from guests","To avoid new promotions","To shorten contracts"],"Mixed messages cause confusion and disputes.","4.7.c");
+K("mkt","What does it mean to think about sales across the entire business?","Coordinating gate, group, online and indirect sales so offers work together",["Focusing only on gate sales","Ignoring group sales","Treating each channel separately"],"A gap in one channel can undercut another.","4.7.e");
+K("mkt","What does OTA stand for in tourism sales?","Online travel agency",["Open ticket access","Official tour agent","On-site transaction account"],"OTAs sell tickets for a commission.","4.7.f");
+K("mkt","Why should marketing coordinate with the sales team?","Campaigns and offers support what sales is selling to groups and key accounts",["To reduce headcount","To avoid reports","To keep marketing separate"],"Shared calendars and messages avoid duplication.","4.7.g");
+
+K("hr","Which interview technique helps predict job performance?","Behavioral questions that ask for real past examples",["Hypothetical questions only","Questions about age and family","Yes or no questions only"],"Ask the same core questions of every candidate.","5.1.a");
+K("hr","What should a job description list to attract the right candidates?","The knowledge, skills and abilities the role requires",["Only the pay","Only the schedule","Only the company history"],"Clear requirements also make fair selection easier.","5.1.b");
+K("hr","What is competency-based recruitment?","Choosing candidates by the skills and behaviors the job requires",["Choosing whoever applied first","Choosing by personal connection","Choosing the lowest pay request"],"Define the competencies before interviews begin.","5.1.d");
+K("hr","Why should supervisors take part in self-development programs?","It builds their skills and sets an example for their team",["It replaces team training","It reduces their workload","It is optional for leaders only"],"Leaders who keep learning encourage others to do the same.","5.2.c");
+K("hr","What should an outside vendor receive before working on site?","A briefing on company safety, conduct and procedure requirements",["Nothing, since they are contractors","Only the invoice process","Only the staff handbook"],"Vendors work around guests and staff, so they must follow the same standards.","5.2.e");
+K("hr","How can a supervisor support HR policy compliance?","Know the policies, apply them consistently and report concerns",["Apply them only to new staff","Decide which ones to follow","Leave it all to HR"],"Consistency is the key to fairness.","5.3.b");
+K("hr","What makes a team briefing effective?","Short, regular, focused on the day's priorities and open to questions",["Long and unscheduled","Announcements only, with no questions","Held only when something goes wrong"],"Briefings align the team before guests arrive.","5.4.c");
+K("hr","Why offer employee well-being programs?","Healthier, supported staff are more engaged and more likely to stay",["They replace wages","They make breaks unnecessary","They are required in every country"],"Programs can include rest areas, health resources and flexible scheduling.","5.5.c");
+K("hr","What does inclusion mean in a workplace?","Everyone is respected and able to take part and contribute",["Everyone has the same job","Differences are avoided in conversation","Only managers set the culture"],"Diversity is the mix of people. Inclusion is making sure they can all participate.","5.5.d");
+
+(function () {
+  const CATS = [
+    { id: "ops", name: "Facility & Guests", long: "Facility, Entertainment & Guest Relations", sym: "1", n: 1 },
+    { id: "rev", name: "Revenue & Finance", long: "Revenue & Financial Management", sym: "2", n: 2 },
+    { id: "safe", name: "Safety & Security", long: "Safety & Security", sym: "3", n: 3 },
+    { id: "mkt", name: "Marketing & PR", long: "Marketing & Public Relations", sym: "4", n: 4 },
+    { id: "hr", name: "HR & Management", long: "Human Resources & Management", sym: "5", n: 5 }
+  ];
+  const CAT = Object.fromEntries(CATS.map(c => [c.id, c]));
+  const LET = "abcdefghijklmnopqrstuvwxyz";
+  const sortKey = c => c.dn * 10000 + (c.sn || 99) * 100 + (c.l ? LET.indexOf(c.l) : 0);
+  /* ids follow file order so saved "known" marks stay valid; display order follows the syllabus */
+  const ALL = CARDS.map((c, i) => Object.assign({ id: i }, c)).sort((a, b) => sortKey(a) - sortKey(b) || a.id - b.id);
+  const subName = c => (c.sn ? SYL[c.dn].subs[c.sn - 1][0] : "Related knowledge");
+  const topicText = c => (c.l ? SYL[c.dn].subs[c.sn - 1][1][LET.indexOf(c.l)] : "");
+  const label = c => (c.sn ? c.t + " · " + subName(c) : "Related knowledge");
+  const subKey = c => c.dn + "." + c.sn;
+  function subLabel(k) {
+    const p = k.split(".");
+    return +p[1] ? k + " " + SYL[+p[0]].subs[+p[1] - 1][0] : CAT[DKEY[+p[0]]].long + " (related knowledge)";
+  }
+  const KEY = "icap-deck-known";
+  const $ = s => document.querySelector(s);
+  const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+  const bullet = id => '<span class="bullet" data-c="' + id + '" aria-hidden="true">' + CAT[id].sym + "</span>";
+  const bandName = id => "Domain " + CAT[id].n + " · " + CAT[id].long;
+
+  const S = {
+    mode: "cards", cat: "all", sub: "all", shuffle: false, hideKnown: false,
+    deck: [], i: 0, flipped: false, known: new Set(),
+    review: false, confirmReset: false,
+    qlen: 25, qskip: false, qweight: true,
+    quiz: null, focus: false, reveal: null
+  };
+
+  try {
+    const raw = localStorage.getItem(KEY);
+    if (raw) JSON.parse(raw).forEach(n => { if (ALL[n]) S.known.add(n); });
+  } catch (e) {}
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(Array.from(S.known))); } catch (e) {} }
+
+  function shuffle(a) {
+    a = a.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+  const inCat = c => (S.cat === "all" || c.c === S.cat) && (S.sub === "all" || subKey(c) === S.sub);
+
+  function buildDeck() {
+    if (!S.review) {
+      let d = ALL.filter(inCat);
+      if (S.hideKnown) d = d.filter(c => !S.known.has(c.id));
+      if (S.shuffle) d = shuffle(d);
+      S.deck = d;
+    }
+    S.i = 0;
+    S.flipped = false;
+  }
+
+  /* ---------- header, tabs, chips ---------- */
+  function renderHead() {
+    const total = ALL.length, k = S.known.size;
+    $("#sub").textContent = total + " cards, each tagged to a topic in IAAPA's ICAP syllabus. Flip them, mark what you know, then take a multiple choice quiz.";
+    $("#progbar").style.width = (k / total * 100) + "%";
+    $("#progtxt").textContent = k + " OF " + total + " MARKED KNOWN";
+  }
+  function renderTabs() {
+    $("#tabs").innerHTML =
+      '<button class="tab" data-act="tab" data-v="cards" aria-pressed="' + (S.mode === "cards") + '">Cards</button>' +
+      '<button class="tab" data-act="tab" data-v="quiz" aria-pressed="' + (S.mode === "quiz") + '">Quiz</button>' +
+      '<button class="tab" data-act="tab" data-v="info" aria-pressed="' + (S.mode === "info") + '">Exam info</button>';
+  }
+  function renderSub() {
+    const el = $("#subrow");
+    if (S.cat === "all" || S.mode === "info") { el.hidden = true; el.innerHTML = ""; return; }
+    const d = CAT[S.cat].n;
+    let opts = '<option value="all">All sub-domains (' + ALL.filter(c => c.dn === d).length + ")</option>";
+    SYL[d].subs.forEach(function (s, i) {
+      const k = d + "." + (i + 1);
+      const n = ALL.filter(c => c.dn === d && c.sn === i + 1).length;
+      opts += '<option value="' + k + '"' + (S.sub === k ? " selected" : "") + ">" + k + " " + esc(s[0]) + " (" + n + ")</option>";
+    });
+    const rel = ALL.filter(c => c.dn === d && !c.sn).length;
+    if (rel) opts += '<option value="' + d + '.0"' + (S.sub === d + ".0" ? " selected" : "") + ">Related knowledge (" + rel + ")</option>";
+    el.hidden = false;
+    el.innerHTML = '<label for="subsel" class="setlab">Sub-domain</label><select id="subsel">' + opts + "</select>";
+  }
+  function renderChips() {
+    let h = '<button class="chip all" data-act="cat" data-v="all" aria-pressed="' + (S.cat === "all" && !S.review) + '">All domains <span class="cnt">' + ALL.length + "</span></button>";
+    CATS.forEach(c => {
+      const n = ALL.filter(x => x.c === c.id).length;
+      h += '<button class="chip" data-act="cat" data-v="' + c.id + '" aria-pressed="' + (S.cat === c.id && !S.review) + '">' + bullet(c.id) + c.name + ' <span class="cnt">' + n + "</span></button>";
+    });
+    $("#chips").innerHTML = h;
+  }
+
+  /* ---------- flashcards ---------- */
+  function renderCards(m) {
+    let banner = "";
+    if (S.review) {
+      banner = '<div class="banner"><span>Reviewing ' + S.deck.length + " missed card" + (S.deck.length === 1 ? "" : "s") + '</span><button class="btn small" data-act="exitreview">Back to full deck</button></div>';
+    }
+    if (!S.deck.length) {
+      m.innerHTML = banner + '<div class="empty"><p>' +
+        (S.hideKnown ? "Every card in this domain is marked known." : "No cards to show.") +
+        '</p><button class="btn" data-act="hide">Show known cards again</button></div>';
+      return;
+    }
+    const c = S.deck[S.i], n = S.deck.length, known = S.known.has(c.id);
+    const fl = S.flipped;
+    m.innerHTML = banner +
+      '<div class="scene"><button class="card" id="card" data-act="flip" aria-label="Flashcard. Press to flip between question and answer.">' +
+      '<span class="inner' + (fl ? " flipped" : "") + '">' +
+      '<span class="face front" data-c="' + c.c + '"' + (fl ? ' aria-hidden="true"' : "") + ">" +
+        '<span class="band">' + bullet(c.c) + esc(bandName(c.c)) + "</span>" +
+        '<span class="fbody"><span class="topic">' + esc(label(c)) + '</span><span class="q">' + esc(c.q) + "</span></span>" +
+        '<span class="hint">Tap to reveal</span></span>' +
+      '<span class="face back" data-c="' + c.c + '"' + (fl ? "" : ' aria-hidden="true"') + ">" +
+        '<span class="band">' + bullet(c.c) + "Answer</span>" +
+        '<span class="fbody"><span class="ans">' + esc(c.a) + '</span><span class="note">' + esc(c.n) + "</span>" + (c.l ? '<span class="topic">' + esc(c.t + " · " + topicText(c)) + "</span>" : "") + "</span>" +
+        '<span class="hint">Tap to go back</span></span>' +
+      "</span></button></div>" +
+      '<div class="meta"><span>CARD ' + (S.i + 1) + " OF " + n + '</span><span class="tag-known">' + (known ? "MARKED KNOWN" : "") + "</span></div>" +
+      '<div class="pair"><button class="btn" data-act="learn">Still learning</button><button class="btn primary" data-act="know">Got it</button></div>' +
+      '<div class="row">' +
+        '<button class="btn small" data-act="prev">Previous</button>' +
+        '<button class="btn small" data-act="next">Next</button>' +
+        (S.review ? "" : '<button class="btn small" data-act="shuffle" aria-pressed="' + S.shuffle + '">Shuffle</button>' +
+        '<button class="btn small" data-act="hide" aria-pressed="' + S.hideKnown + '">Hide known</button>') +
+        '<button class="btn small ghost" data-act="reset">' + (S.confirmReset ? "Tap again to clear progress" : "Reset progress") + "</button>" +
+      "</div>";
+  }
+
+  function flip() {
+    S.flipped = !S.flipped;
+    const inner = $(".inner");
+    if (!inner) return;
+    inner.classList.toggle("flipped", S.flipped);
+    inner.querySelector(".front").setAttribute("aria-hidden", S.flipped ? "true" : "false");
+    inner.querySelector(".back").setAttribute("aria-hidden", S.flipped ? "false" : "true");
+  }
+  function step(d) {
+    const n = S.deck.length;
+    if (!n) return;
+    S.i = (S.i + d + n) % n;
+    S.flipped = false;
+    S.focus = true;
+    render();
+  }
+
+  /* ---------- quiz ---------- */
+  function pool() {
+    let p = ALL.filter(inCat);
+    if (S.qskip) p = p.filter(c => !S.known.has(c.id));
+    return p;
+  }
+  function makeItem(c) {
+    const opts = shuffle([c.a].concat(c.d));
+    return { c: c, opts: opts, correct: opts.indexOf(c.a), pick: null };
+  }
+  const isRight = it => it.pick === it.correct;
+
+  /* with all domains selected, mirror the exam's mix: 60/55/40/20/25 of 200 */
+  function pickItems(p, n) {
+    if (!(S.cat === "all" && S.qweight) || n >= p.length) return p.slice(0, n);
+    const W = { ops: 60, rev: 55, safe: 40, mkt: 20, hr: 25 };
+    let out = [], rest = [];
+    CATS.forEach(function (c) {
+      const mine = p.filter(function (x) { return x.c === c.id; });
+      const want = Math.round(n * W[c.id] / 200);
+      out = out.concat(mine.slice(0, want));
+      rest = rest.concat(mine.slice(want));
+    });
+    out = out.concat(shuffle(rest).slice(0, Math.max(0, n - out.length)));
+    return shuffle(out).slice(0, n);
+  }
+  function startQuiz() {
+    const p = shuffle(pool());
+    if (!p.length) return;
+    const n = S.qlen === 0 ? p.length : Math.min(S.qlen, p.length);
+    S.quiz = { items: pickItems(p, n).map(makeItem), i: 0, done: false };
+    S.reveal = "panel";
+    S.focus = true;
+    render();
+  }
+  function renderQuiz(m) {
+    const q = S.quiz;
+    if (!q) return renderQuizSetup(m);
+    if (q.done) return renderResults(m);
+    const it = q.items[q.i], c = it.c, n = q.items.length;
+    const answered = it.pick !== null;
+    const right = answered && isRight(it);
+    let opts = "";
+    it.opts.forEach((o, k) => {
+      let cls = "opt";
+      if (answered) {
+        if (k === it.correct) cls += " correct";
+        else if (k === it.pick) cls += " wrong";
+        else cls += " dim";
+      }
+      opts += '<button class="' + cls + '" data-act="pick" data-v="' + k + '"' + (answered ? " disabled" : "") + '><span class="k">' + (k + 1) + "</span><span>" + esc(o) + "</span></button>";
+    });
+    let fb = "";
+    if (answered) {
+      const msg = right ? "Correct." : "Not quite. The answer is " + c.a + ".";
+      fb = '<div class="fb ' + (right ? "ok" : "no") + '"><strong>' + esc(msg) + "</strong><span>" + esc(c.n) + "</span></div>" +
+        '<button class="btn primary" data-act="qnext" data-focus="1">' + (q.i === n - 1 ? "See results" : "Next question") + "</button>";
+    }
+    const done = q.items.filter(x => x.pick !== null && isRight(x)).length;
+    m.innerHTML = '<div class="panel" data-c="' + c.c + '"><div class="band">' + bullet(c.c) + esc(bandName(c.c)) + "</div>" +
+      '<div class="pbody">' +
+      '<div class="meta"><span>QUESTION ' + (q.i + 1) + " OF " + n + "</span><span>" + done + " CORRECT</span></div>" +
+      '<div class="qbar" aria-hidden="true"><i style="width:' + (q.i / n * 100) + '%"></i></div>' +
+      '<div class="topic">' + esc(label(c)) + '</div><div class="q">' + esc(c.q) + "</div>" +
+      '<div class="opts">' + opts + "</div>" + fb +
+      "</div></div>";
+  }
+  function seg(label, act, items, isOn) {
+    const b = items.map(x => '<button class="btn small" data-act="' + act + '" data-v="' + x.v + '" aria-pressed="' + isOn(x.v) + '">' + x.t + "</button>").join("");
+    return '<p class="setlab">' + label + '</p><div class="seg" role="group" aria-label="' + label + '">' + b + "</div>";
+  }
+  function renderQuizSetup(m) {
+    const p = pool(), total = p.length;
+    const lens = [10, 25, 50, 100].filter(v => v < total).map(v => ({ v: String(v), t: String(v) }));
+    lens.push({ v: "0", t: "All " + total });
+    const count = S.qlen === 0 ? total : Math.min(S.qlen, total);
+    const topic = S.cat === "all" ? "all five domains" : (S.sub === "all" ? CAT[S.cat].long : subLabel(S.sub));
+    const lenOn = v => (v === "0" ? (S.qlen === 0 || S.qlen >= total) : S.qlen === parseInt(v, 10) && S.qlen < total);
+    m.innerHTML = '<div class="panel"><div class="pbody"><h2>Practice quiz</h2>' +
+      "<p>Questions come from " + esc(topic) + ". Pick a domain above to narrow it down. The real exam has 200 questions in 4 hours.</p>" +
+      seg("Number of questions", "qlen", lens, lenOn) +
+      (S.cat === "all" ? seg("Question mix", "qweight", [{ v: "1", t: "Match exam weighting" }, { v: "0", t: "Any card" }], v => (v === "1") === S.qweight) : "") +
+      seg("Cards to include", "qskip", [{ v: "0", t: "All cards" }, { v: "1", t: "Skip cards marked known" }], v => (v === "1") === S.qskip) +
+      (total ? "" : '<p class="hintline">Every card here is marked known. Switch to all cards to start a quiz.</p>') +
+      '<button class="btn primary" data-act="qstart"' + (total ? "" : " disabled") + ">Start quiz, " + count + " questions</button></div></div>";
+  }
+  function renderResults(m) {
+    const q = S.quiz, n = q.items.length;
+    const got = q.items.filter(isRight).length;
+    const pct = Math.round(got / n * 100);
+    const missed = q.items.filter(it => !isRight(it));
+    const rows = CATS.map(c => {
+      const sub = q.items.filter(it => it.c.c === c.id);
+      if (!sub.length) return "";
+      return '<li>' + bullet(c.id) + '<span class="nm">' + esc(c.name) + '</span><span class="sc">' + sub.filter(isRight).length + " / " + sub.length + "</span></li>";
+    }).join("");
+    const list = missed.map(it => '<li><span class="topic">' + esc(label(it.c)) + "</span><span>" + esc(it.c.q) + '</span><span class="ca">' + esc(it.c.a) + "</span></li>").join("");
+    m.innerHTML = '<div class="panel"><div class="pbody">' +
+      '<div class="meta"><span>QUIZ COMPLETE</span><span>' + pct + "%</span></div>" +
+      '<div class="score">' + got + "<small> / " + n + "</small></div>" +
+      '<ul class="breakdown">' + rows + "</ul>" +
+      (missed.length ? "<h3>Missed (" + missed.length + ")</h3><ul class=\"missed\">" + list + "</ul>" : "<p>No misses. Try another domain.</p>") +
+      '<div class="row">' +
+      (missed.length ? '<button class="btn primary" data-act="qreview">Study missed as flashcards</button>' : "") +
+      '<button class="btn" data-act="qstart">New quiz</button>' +
+      '<button class="btn ghost" data-act="qsetup">Change settings</button></div>' +
+      "</div></div>";
+  }
+
+  /* ---------- exam info (from IAAPA's ICAP pages and 2023 Certification Handbook) ---------- */
+  const DOMS = [
+    { id: "ops", q: 60, mins: 75 },
+    { id: "rev", q: 55, mins: 75 },
+    { id: "safe", q: 40, mins: 60 },
+    { id: "mkt", q: 20, mins: 30 },
+    { id: "hr", q: 25, mins: 30 }
+  ];
+const FACTS = [
+    ["Format", "200 multiple choice questions in 4 hours, in one sitting (traditional route)."],
+    ["Micro-exam route", "Five separate exams, one per domain, 30 to 75 minutes each (270 minutes in all). You cannot switch routes once you choose, and you can use the ICAP title only after passing all five."],
+    ["Eligibility", "1 year of professional attractions industry experience and 1 year of supervisory experience. No education requirement."],
+    ["Time to test", "Approved applicants have 2 years to take the traditional exam, or 3 years to finish all five micro-exams."],
+    ["Test day", "Taken online with a remote proctor. You show a government-issued photo ID, and the proctor checks your room. Use a desktop or laptop with a webcam and microphone."],
+    ["Scoring", "Pass or fail. IAAPA keeps the passing score confidential. A fail report shows strengths and weaknesses by domain."],
+    ["Retakes", "Up to two more attempts, three in total within a year."],
+    ["Exam content", "Not disclosed. Candidates agree not to copy or share questions, so any study material, including this deck, is practice only."],
+    ["Renewal", "The certification lasts 3 years. Renew with 40 hours of continuing education per cycle."]
+  ];
+  const SAMPLE = [
+    "Domain 1: signage for delays and weather, costume characters, social media with guests, guest recovery tools, accessibility resources.",
+    "Domain 2: scheduling staff for events, stock storage, game and prize handling, memberships, group sales and pricing, suggestive selling, cross-contamination in food prep.",
+    "Domain 3: evacuation, PPE, hazardous substances, emergency planning, first aid, hazard controls, food safety, compliance training, waste, radios, event planning.",
+    "Domains 4 and 5: social media as the brand's voice, and local employer responsibilities."
+  ];
+  function renderInfo(m) {
+    const facts = FACTS.map(function (f) { return '<div class="fact"><dt>' + esc(f[0]) + "</dt><dd>" + esc(f[1]) + "</dd></div>"; }).join("");
+    const perTopic = {};
+    ALL.forEach(function (c) { if (c.l) perTopic[c.t] = (perTopic[c.t] || 0) + 1; });
+    let total = 0, covered = 0;
+    const doms = DOMS.map(function (d) {
+      const dn = CAT[d.id].n;
+      const subs = SYL[dn].subs.map(function (s, si) {
+        const key = dn + "." + (si + 1);
+        const n = ALL.filter(function (c) { return c.dn === dn && c.sn === si + 1; }).length;
+        const rows = s[1].map(function (t, ti) {
+          const k = perTopic[key + "." + LET.charAt(ti)] || 0;
+          total++; if (k) covered++;
+          return '<li><span class="lt">' + LET.charAt(ti) + '.</span><span>' + esc(t) + '</span><span class="ct">' + (k ? k + (k === 1 ? " card" : " cards") : "no card yet") + "</span></li>";
+        }).join("");
+        return "<details><summary><span>" + key + " " + esc(s[0]) + '</span><span class="cnt">' + n + ' cards</span></summary><ul class="topics">' + rows +
+          '</ul><div class="dom-actions"><button class="btn small" data-act="study" data-v="' + d.id + '" data-sub="' + key + '">Study ' + n + " cards</button></div></details>";
+      }).join("");
+      const all = ALL.filter(function (c) { return c.dn === dn; }).length;
+      const rel = ALL.filter(function (c) { return c.dn === dn && !c.sn; }).length;
+      return '<div class="panel" data-c="' + d.id + '"><div class="band">' + bullet(d.id) + esc(bandName(d.id)) + "</div>" +
+        '<div class="pbody"><div class="meta"><span>' + d.q + " QUESTIONS · " + (d.q / 2) + "% OF THE EXAM</span><span>" + d.mins + " MIN AS A MICRO-EXAM</span></div>" +
+        "<div>" + subs + "</div>" +
+        (rel ? '<p class="hintline">' + rel + " more cards cover related industry knowledge that is not a listed syllabus topic.</p>" : "") +
+        '<div class="dom-actions"><button class="btn small" data-act="study" data-v="' + d.id + '">Study all ' + all + " cards</button></div></div></div>";
+    }).join("");
+    m.innerHTML =
+      '<div class="panel"><div class="pbody"><h2>About the exam</h2>' +
+      '<p class="hintline">The ICAP is IAAPA\'s Certified Attractions Professional exam, for people with roughly 1 to 6 years in the industry.</p>' +
+      '<dl class="facts">' + facts + "</dl></div></div>" +
+      "<h3>What is tested</h3>" +
+      '<p class="hintline">Topics come from IAAPA\'s February 2021 ICAP Examination Syllabus. ' + covered + " of " + total + " topics have at least one card. Open a sub-domain to see each topic and how many cards cover it.</p>" + doms +
+      '<div class="panel"><div class="pbody"><h2>The sample questions</h2>' +
+      "<p>IAAPA's published sample questions are short workplace scenarios. Most ask for the best, first or least appropriate action. They touch on:</p>" +
+      '<ul class="subs">' + SAMPLE.map(function (s) { return "<li>" + esc(s) + "</li>"; }).join("") + "</ul></div></div>" +
+      '<div class="panel"><div class="pbody"><h2>Official sources</h2><ul class="links">' +
+      '<li><a href="https://iaapa.org/education/certification/how-to-apply">IAAPA: 5 steps for certification</a></li>' +
+      '<li><a href="https://iaapa-hosted-files.s3-us-west-2.amazonaws.com/Certifications/Certification-2021-ICAP-Syllabus.pdf">ICAP Examination Syllabus (PDF)</a></li>' +
+      '<li><a href="https://iaapa.org/document/33661">ICAP sample questions</a></li></ul>' +
+      '<p class="hintline">Topic wording here is paraphrased from the syllabus, which IAAPA says can change. Policies above come from IAAPA\'s 2023 Certification Handbook and its ICAP application pages, checked in November 2026. Confirm fees, rules and the exam provider before you apply.</p></div></div>';
+  }
+
+/* ---------- render + events ---------- */
+  function render() {
+    renderHead(); renderTabs(); renderChips(); renderSub();
+    const m = $("#main");
+    if (S.mode === "cards") renderCards(m); else if (S.mode === "info") renderInfo(m); else renderQuiz(m);
+    $("#chips").hidden = S.mode === "info";
+    document.querySelector(".wrap").classList.toggle("quizzing", S.mode === "quiz" && !!S.quiz && !S.quiz.done);
+    if (S.reveal) {
+      const r = S.reveal; S.reveal = null;
+      const el = r === "next" ? m.querySelector("[data-focus]") : m.querySelector(".panel");
+      if (el) {
+        const b = el.getBoundingClientRect();
+        if (r === "next") { if (b.bottom > window.innerHeight - 12) el.scrollIntoView({ block: "end" }); }
+        else if (b.top < 8) el.scrollIntoView({ block: "start" });
+      }
+    }
+    if (S.focus) {
+      S.focus = false;
+      const f = m.querySelector("[data-focus]") || (S.mode === "cards" ? $("#card") : null);
+      if (f) f.focus({ preventScroll: true });
+    }
+  }
+
+  document.addEventListener("click", function (e) {
+    const t = e.target.closest("[data-act]");
+    if (!t) return;
+    const act = t.dataset.act, v = t.dataset.v;
+    if (act !== "reset") S.confirmReset = false;
+    switch (act) {
+      case "tab": S.mode = v; if (v === "quiz") S.quiz = null; break;
+      case "cat": S.cat = v; S.sub = "all"; S.review = false; S.quiz = null; buildDeck(); break;
+      case "flip": flip(); return;
+      case "know": S.known.add(S.deck[S.i].id); save(); step(1); return;
+      case "learn": S.known.delete(S.deck[S.i].id); save(); step(1); return;
+      case "next": step(1); return;
+      case "prev": step(-1); return;
+      case "shuffle": S.shuffle = !S.shuffle; buildDeck(); break;
+      case "hide": S.hideKnown = !S.hideKnown; if (S.review) S.review = false; buildDeck(); break;
+      case "reset":
+        if (S.confirmReset) { S.known.clear(); save(); S.confirmReset = false; buildDeck(); }
+        else S.confirmReset = true;
+        break;
+      case "exitreview": S.review = false; buildDeck(); break;
+      case "qlen": S.qlen = parseInt(v, 10); break;
+      case "qskip": S.qskip = v === "1"; break;
+      case "qweight": S.qweight = v === "1"; break;
+      case "study":
+        S.cat = v; S.sub = t.dataset.sub || "all"; S.mode = "cards"; S.review = false; S.quiz = null; buildDeck();
+        render();
+        window.scrollTo(0, 0);
+        return;
+      case "qsetup": S.quiz = null; break;
+      case "qstart": startQuiz(); return;
+      case "pick": S.quiz.items[S.quiz.i].pick = parseInt(v, 10); S.focus = true; S.reveal = "next"; break;
+      case "qnext":
+        if (S.quiz.i === S.quiz.items.length - 1) S.quiz.done = true; else S.quiz.i++;
+        S.reveal = "panel";
+        break;
+      case "qreview":
+        S.review = true; S.mode = "cards";
+        S.deck = S.quiz.items.filter(it => !isRight(it)).map(it => it.c);
+        S.i = 0; S.flipped = false;
+        break;
+    }
+    render();
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    if (S.mode === "cards") {
+      if (e.key === "ArrowRight") { step(1); e.preventDefault(); }
+      else if (e.key === "ArrowLeft") { step(-1); e.preventDefault(); }
+      else if (e.key === " " && e.target === document.body) { flip(); e.preventDefault(); }
+    } else if (S.quiz && !S.quiz.done) {
+      const it = S.quiz.items[S.quiz.i];
+      const k = "1234".indexOf(e.key);
+      if (it.pick === null && k > -1 && k < it.opts.length) { it.pick = k; S.focus = true; S.reveal = "next"; render(); }
+    }
+  });
+
+  document.addEventListener("change", function (e) {
+    if (e.target.id !== "subsel") return;
+    S.sub = e.target.value; S.review = false; S.quiz = null; S.confirmReset = false;
+    buildDeck(); render();
+    const el = document.getElementById("subsel");
+    if (el) el.focus();
+  });
+
+  buildDeck();
+  render();
+})();
+</script>
+
+</body>
+</html>
